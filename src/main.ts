@@ -5,6 +5,8 @@ import { applyTheme, readStoredTheme } from '@/shared/utils/theme'
 
 import App from './App.vue'
 import './style.css'
+import './shared/components/engineering-review/artifacts-theme.css'
+import './shared/components/engineering-review/engineering-review-theme.css'
 
 applyTheme(readStoredTheme())
 

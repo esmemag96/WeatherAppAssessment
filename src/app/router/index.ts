@@ -2,6 +2,20 @@ import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
 import { ROUTE_NAMES, ROUTE_PATHS } from '@/shared/constants'
 
+const ARTIFACT_HASH_REDIRECTS: Record<string, string> = {
+  'project-brief': '#summary',
+  discovery: '#uncertainty',
+  'competitor-analysis': '#competitors',
+  'product-requirements': '#summary',
+  design: '#competitors',
+  architecture: '#architecture',
+  adrs: '#decisions',
+  'implementation-plan': '#implementation',
+  'testing-strategy': '#quality',
+  deployment: '#implementation',
+  retrospective: '#retrospective',
+}
+
 /**
  * Route components are lazy-loaded so the initial bundle only ships the
  * shell + whichever page the user lands on.
@@ -38,9 +52,19 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: ROUTE_PATHS.artifacts,
+    name: ROUTE_NAMES.artifacts,
+    component: () => import('@/pages/Artifacts'),
+  },
+  ...Object.entries(ARTIFACT_HASH_REDIRECTS).map(([segment, hash]) => ({
+    path: `/artifacts/${segment}`,
+    redirect: `${ROUTE_PATHS.artifacts}${hash}`,
+  })),
   { path: '/search', redirect: ROUTE_PATHS.search },
   { path: '/favorites', redirect: ROUTE_PATHS.favorites },
   { path: '/settings', redirect: ROUTE_PATHS.settings },
+  { path: '/journey', redirect: ROUTE_PATHS.artifacts },
 ]
 
 export const router = createRouter({

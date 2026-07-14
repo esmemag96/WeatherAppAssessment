@@ -1,3 +1,5 @@
 export { useDarkMode, useTheme } from './useDarkMode'
+export { useArtifactsTheme } from './useArtifactsTheme'
 export * from './useOnlineStatus'
 export { useReducedMotion } from './useReducedMotion'
+export { scrollToSection, useSectionObserver } from './useSectionObserver'

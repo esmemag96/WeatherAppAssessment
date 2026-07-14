@@ -1,0 +1,81 @@
+@import 'tailwindcss' reference;
+
+.artifacts-root .er-section {
+  @apply flex min-h-[calc(100vh-5rem)] flex-col justify-center py-16;
+}
+
+.artifacts-root .er-progress-track {
+  @apply h-0.5 w-full bg-zinc-200;
+}
+
+.artifacts-root.artifacts-dark .er-progress-track {
+  @apply bg-zinc-800;
+}
+
+.artifacts-root .er-progress-fill {
+  @apply h-full bg-zinc-900 transition-all duration-300 ease-out;
+}
+
+.artifacts-root.artifacts-dark .er-progress-fill {
+  @apply bg-zinc-100;
+}
+
+.artifacts-root .er-stat-value {
+  @apply text-3xl font-semibold tracking-tight text-zinc-900;
+}
+
+.artifacts-root.artifacts-dark .er-stat-value {
+  @apply text-zinc-100;
+}
+
+.artifacts-root .er-roadmap-bar {
+  @apply h-2 overflow-hidden rounded-full bg-zinc-200;
+}
+
+.artifacts-root.artifacts-dark .er-roadmap-bar {
+  @apply bg-zinc-800;
+}
+
+.artifacts-root .er-roadmap-fill {
+  @apply h-full rounded-full bg-zinc-900 transition-all duration-500;
+}
+
+.artifacts-root.artifacts-dark .er-roadmap-fill {
+  @apply bg-zinc-300;
+}
+
+.artifacts-root .er-flow-node {
+  @apply rounded-lg border border-zinc-200 bg-white px-4 py-3 text-center shadow-sm;
+}
+
+.artifacts-root.artifacts-dark .er-flow-node {
+  @apply border-zinc-700 bg-zinc-900 shadow-none;
+}
+
+.artifacts-root .er-flow-node-active {
+  @apply border-zinc-900 bg-zinc-50 ring-2 ring-zinc-900/10;
+}
+
+.artifacts-root.artifacts-dark .er-flow-node-active {
+  @apply border-zinc-400 bg-zinc-800 ring-zinc-400/20;
+}
+
+.artifacts-root .er-ownership-table tbody tr:hover {
+  @apply bg-zinc-50;
+}
+
+.artifacts-root.artifacts-dark .er-ownership-table tbody tr:hover {
+  @apply bg-zinc-900/50;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artifacts-root .er-progress-fill,
+  .artifacts-root .er-roadmap-fill,
+  .artifacts-root .er-flow-node {
+    @apply transition-none;
+  }
+
+  .artifacts-root * {
+    scroll-behavior: auto !important;
+  }
+}
