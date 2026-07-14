@@ -1,0 +1,266 @@
+@import 'tailwindcss';
+
+/*
+ * ============================================================================
+ * NIMBUS DESIGN SYSTEM — Tailwind v4 theme tokens
+ * ============================================================================
+ * Source of truth: the approved Stitch "Nimbus High-Fidelity" mockups
+ * (weather dashboard, search, favorites, settings, error, loading states).
+ * Token names intentionally mirror the class names used in the mockup
+ * HTML exports (e.g. `bg-surface`, `text-on-surface-variant`,
+ * `text-headline-lg`) so the design hand-off maps 1:1 onto Tailwind
+ * utilities - no translation layer, no guessing.
+ *
+ * Light mode is the default; `.dark` on <html> swaps to the dark palette.
+ * See `src/shared/DESIGN_SYSTEM.md` for the full component catalogue.
+ */
+
+/* Class-based dark mode toggle (Settings → Appearance). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* --- Typeface --------------------------------------------------------- */
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* --- Color palette (light mode — Apple Weather–inspired sky tones) ----- */
+  --color-background: #b8daf5;
+  --color-surface: #c8e4f8;
+  --color-surface-dim: #9ec8eb;
+  --color-surface-bright: #e2f2fc;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eef6fd;
+  --color-surface-container: #e4f0fb;
+  --color-surface-container-high: #d8ebfa;
+  --color-surface-container-highest: #cce4f8;
+  --color-surface-variant: #b8daf5;
+  --color-surface-tint: #007aff;
+
+  --color-on-background: #1a3a52;
+  --color-on-surface: #1a3a52;
+  --color-on-surface-variant: #4a6a82;
+  --color-inverse-surface: #1a3a52;
+  --color-inverse-on-surface: #eef6fd;
+
+  --color-outline: #5a8ab0;
+  --color-outline-variant: #8eb8d8;
+
+  --color-primary: #007aff;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #b8dcff;
+  --color-on-primary-container: #003d73;
+  --color-inverse-primary: #5ac8fa;
+  --color-primary-fixed: #b8dcff;
+  --color-primary-fixed-dim: #7ec0ff;
+  --color-on-primary-fixed: #003d73;
+  --color-on-primary-fixed-variant: #005bb5;
+
+  --color-secondary: #32ade6;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #7dd3fc;
+  --color-on-secondary-container: #003549;
+  --color-secondary-fixed: #5ac8fa;
+  --color-secondary-fixed-dim: #32ade6;
+  --color-on-secondary-fixed: #003549;
+  --color-on-secondary-fixed-variant: #006b8f;
+
+  --color-tertiary: #ff9500;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #ffd9a8;
+  --color-on-tertiary-container: #5c3200;
+  --color-tertiary-fixed: #ffd9a8;
+  --color-tertiary-fixed-dim: #ffb340;
+  --color-on-tertiary-fixed: #5c3200;
+  --color-on-tertiary-fixed-variant: #8f4f00;
+
+  --color-error: #ff3b30;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffd6d4;
+  --color-on-error-container: #5c0000;
+
+  /* Frosted-glass fill and sky-tinted structural colors for light mode. */
+  --color-glass-fill: color-mix(in srgb, #ffffff 70%, var(--color-primary-container) 30%);
+  --color-border-subtle: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  --color-border-emphasis: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  --color-glass-highlight: color-mix(in srgb, #ffffff 75%, transparent);
+  --color-overlay-hover: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  --color-overlay-subtle: color-mix(in srgb, var(--color-primary) 6%, transparent);
+  --color-overlay-shimmer: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  --color-divider: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  --color-scrim: color-mix(in srgb, #1a3a52 45%, transparent);
+  --color-hero-scrim-top: color-mix(in srgb, var(--color-primary) 10%, transparent);
+
+  /* --- Typography scale (paired font-size/line-height/letter-spacing/weight) */
+  --text-display-metrics: 80px;
+  --text-display-metrics--line-height: 88px;
+  --text-display-metrics--letter-spacing: -0.04em;
+  --text-display-metrics--font-weight: 700;
+
+  /* Mobile-scaled hero metric per design spec (56px), promoted to the
+     full 80px size at the `sm` breakpoint and up - see WeatherHeroCard. */
+  --text-display-metrics-sm: 56px;
+  --text-display-metrics-sm--line-height: 60px;
+  --text-display-metrics-sm--letter-spacing: -0.03em;
+  --text-display-metrics-sm--font-weight: 700;
+
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 600;
+
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--font-weight: 600;
+
+  --text-title-lg: 18px;
+  --text-title-lg--line-height: 24px;
+  --text-title-lg--font-weight: 600;
+
+  --text-body-lg: 16px;
+  --text-body-lg--line-height: 24px;
+  --text-body-lg--font-weight: 400;
+
+  --text-body-md: 14px;
+  --text-body-md--line-height: 20px;
+  --text-body-md--font-weight: 400;
+
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 16px;
+  --text-label-caps--letter-spacing: 0.05em;
+  --text-label-caps--font-weight: 700;
+
+  --text-numeric-data: 14px;
+  --text-numeric-data--line-height: 20px;
+  --text-numeric-data--font-weight: 500;
+
+  /* --- Spacing (beyond Tailwind's default 4px-based scale) --------------- */
+  --spacing-container-padding: 24px;
+  --spacing-gutter: 16px;
+  --spacing-row-height-sm: 40px;
+  --spacing-row-height-md: 56px;
+
+  /* --- Container widths -------------------------------------------------- */
+  --container-app: 28rem; /* 448px - the single-column mobile app shell */
+  --container-app-wide: 72rem; /* ceiling for the future desktop dashboard layout */
+
+  /* --- Elevation --------------------------------------------------------- */
+  --shadow-glass: 0 8px 32px rgba(0, 122, 255, 0.12);
+  --shadow-nav: 0 -8px 32px rgba(0, 122, 255, 0.1);
+  --shadow-modal: 0 16px 48px rgba(0, 122, 255, 0.15);
+  --shadow-glow-primary: 0 0 24px rgba(0, 122, 255, 0.3);
+  --shadow-glow-secondary: 0 0 24px rgba(50, 173, 230, 0.25);
+
+  /* --- Motion ------------------------------------------------------------- */
+  --ease-swift: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --animate-shimmer: shimmer 2s linear infinite;
+}
+
+/* Dark palette — toggled via `.dark` on <html> (Settings → Appearance). */
+.dark {
+  --color-background: #111317;
+  --color-surface: #111317;
+  --color-surface-dim: #111317;
+  --color-surface-bright: #37393e;
+  --color-surface-container-lowest: #0c0e12;
+  --color-surface-container-low: #1a1c20;
+  --color-surface-container: #1e2024;
+  --color-surface-container-high: #282a2e;
+  --color-surface-container-highest: #333539;
+  --color-surface-variant: #333539;
+  --color-surface-tint: #a4c9ff;
+
+  --color-on-background: #e2e2e8;
+  --color-on-surface: #e2e2e8;
+  --color-on-surface-variant: #c1c7d3;
+  --color-inverse-surface: #e2e2e8;
+  --color-inverse-on-surface: #2f3035;
+
+  --color-outline: #8b919d;
+  --color-outline-variant: #414751;
+
+  --color-primary: #a4c9ff;
+  --color-on-primary: #00315d;
+  --color-primary-container: #4d93e5;
+  --color-on-primary-container: #002a51;
+  --color-inverse-primary: #0060ac;
+  --color-primary-fixed: #d4e3ff;
+  --color-primary-fixed-dim: #a4c9ff;
+  --color-on-primary-fixed: #001c39;
+  --color-on-primary-fixed-variant: #004883;
+
+  --color-secondary: #41e5b3;
+  --color-on-secondary: #003828;
+  --color-secondary-container: #00c899;
+  --color-on-secondary-container: #004d39;
+  --color-secondary-fixed: #5ffcc9;
+  --color-secondary-fixed-dim: #39dfae;
+  --color-on-secondary-fixed: #002116;
+  --color-on-secondary-fixed-variant: #00513c;
+
+  --color-tertiary: #ffb866;
+  --color-on-tertiary: #482900;
+  --color-tertiary-container: #cb8011;
+  --color-on-tertiary-container: #3f2300;
+  --color-tertiary-fixed: #ffddba;
+  --color-tertiary-fixed-dim: #ffb866;
+  --color-on-tertiary-fixed: #2b1700;
+  --color-on-tertiary-fixed-variant: #673d00;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  --color-glass-fill: var(--color-surface-container-low);
+  --color-border-subtle: color-mix(in srgb, var(--color-on-surface) 8%, transparent);
+  --color-border-emphasis: color-mix(in srgb, var(--color-on-surface) 12%, transparent);
+  --color-overlay-hover: color-mix(in srgb, var(--color-on-surface) 5%, transparent);
+  --color-overlay-subtle: color-mix(in srgb, var(--color-on-surface) 5%, transparent);
+  --color-overlay-shimmer: color-mix(in srgb, var(--color-on-surface) 10%, transparent);
+  --color-divider: color-mix(in srgb, var(--color-on-surface) 6%, transparent);
+  --color-scrim: color-mix(in srgb, #000000 60%, transparent);
+  --color-hero-scrim-top: color-mix(in srgb, #000000 20%, transparent);
+
+  --color-glass-highlight: color-mix(in srgb, #ffffff 15%, transparent);
+
+  --shadow-glass: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-nav: 0 -10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-modal: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shadow-glow-primary: 0 0 20px rgba(164, 201, 255, 0.25);
+  --shadow-glow-secondary: 0 0 20px rgba(65, 229, 179, 0.2);
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+
+  body {
+    @apply text-on-surface antialiased;
+    background-color: var(--color-background);
+    /* Soft sky gradient — visible in light mode only; dark mode resets below. */
+    background-image: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-primary-container) 55%, #87ceeb) 0%,
+      var(--color-background) 38%,
+      color-mix(in srgb, var(--color-surface-bright) 70%, #ffffff) 100%
+    );
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    @apply bg-background;
+    background-image: none;
+  }
+}
