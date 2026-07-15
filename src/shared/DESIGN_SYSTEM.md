@@ -1,4 +1,4 @@
-# Nimbus Design System
+# Esmeralda Weather App Design System
 
 Source of truth: the approved Stitch mockups in
 `stitch_nimbus_weather_experience_design/` (`weather_dashboard_hi_fi`,
@@ -126,7 +126,7 @@ beyond what it's handed.
    per-route header variant is a routing concern, not a design-system
    concern, and would require deciding *which* routes get a back button -
    that's a product/IA decision explicitly out of scope for this step.
-   The branded header (location pin + "Nimbus Digital" + search action)
+   The branded header (location pin + "Esmeralda Weather App" + search action)
    used on every other screen is the default; a `back` header variant can
    be added to `AppShell` later without changing any shared component.
 2. **Favorites keeps its own bottom-nav tab.** The mockups' bottom nav only

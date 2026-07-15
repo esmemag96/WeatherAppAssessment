@@ -3,7 +3,7 @@
   ----
   Purpose:
     Thin, typed wrapper around Google's "Material Symbols Outlined" variable
-    font - the exact icon set used throughout every Nimbus mockup (1.5px
+    font - the exact icon set used throughout every Esmeralda Weather App mockup (1.5px
     stroke weight, with a `FILL` axis used to indicate active/emphasized
     states, e.g. a filled cloud icon for the current hour, or a filled
     star for a saved favorite).

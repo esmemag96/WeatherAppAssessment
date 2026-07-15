@@ -2,8 +2,8 @@
   Toast
   -----
   Purpose:
-    Transient notification that slides in from the bottom (per the Nimbus
-    motion spec) and optionally auto-dismisses. A single reusable
+    Transient notification that slides in from the bottom (per the
+    Esmeralda Weather App motion spec) and optionally auto-dismisses. A single reusable
     primitive - queuing/stacking multiple toasts is left to whatever
     feature-level composable/store manages notifications later.
 

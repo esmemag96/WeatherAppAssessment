@@ -35,9 +35,9 @@ function toggleTheme(): void {
     <header
       class="fixed inset-x-0 top-0 z-50 flex h-row-height-md items-center justify-between border-b border-border-subtle bg-glass-fill/75 px-container-padding shadow-glass backdrop-blur-xl dark:bg-surface/80 dark:shadow-2xl dark:backdrop-blur-md"
     >
-      <div class="flex items-center gap-2 rounded-lg p-1 transition-colors duration-200 hover:bg-overlay-hover active:scale-95">
-        <Icon name="location_on" class="text-primary" />
-        <span class="font-headline-md text-headline-md font-bold text-on-surface">Nimbus Digital</span>
+      <div class="flex min-w-0 items-center gap-2 rounded-lg p-1 transition-colors duration-200 hover:bg-overlay-hover active:scale-95">
+        <Icon name="location_on" class="shrink-0 text-primary" />
+        <span class="truncate font-headline-md text-headline-md font-bold text-on-surface">Esmeralda Weather App</span>
       </div>
       <div class="flex items-center gap-1">
         <IconButton :label="isDark ? 'Switch to light mode' : 'Switch to dark mode'" @click="toggleTheme">

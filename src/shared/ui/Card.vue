@@ -2,7 +2,7 @@
   Card
   ----
   Purpose:
-    Base surface container implementing the Nimbus elevation system. Every
+    Base surface container implementing the Esmeralda Weather App elevation system. Every
     card-like block in the app (hero sections, metric tiles, list rows,
     modals, toasts) composes this instead of re-declaring the glass effect,
     per the "use composition instead of duplication" rule.
