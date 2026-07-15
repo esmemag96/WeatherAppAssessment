@@ -25,6 +25,14 @@
     - feelsLikeLabel (string, optional): e.g. "Feels like 66°".
     - icon (string, default 'filter_drama'): condition icon name.
     - live (boolean, default false): shows the pulsing "Live" badge.
+    - visual (WeatherVisual, optional): when set, layers a decorative
+      `WeatherAnimationOverlay` (falling rain/snow, drifting fog/clouds,
+      heat shimmer, night stars, lightning) over the background image -
+      omit it to render the plain photo with no motion.
+    - alertKinds (WeatherAlertKind[], optional): forwarded to
+      `WeatherAnimationOverlay` so an active advisory (e.g. a heat
+      warning while it's merely cloudy right now) still shows up in the
+      animation, layered on top of `visual`'s own effect.
 
   Slots: none.
   Events: none.
@@ -41,8 +49,12 @@
     />
 -->
 <script setup lang="ts">
+import type { WeatherAlertKind } from '@/entities/weather'
+import type { WeatherVisual } from '@/infrastructure/images'
 import Badge from '@/shared/ui/Badge.vue'
 import Icon from '@/shared/ui/Icon.vue'
+
+import WeatherAnimationOverlay from './WeatherAnimationOverlay.vue'
 
 interface Props {
   backgroundImageUrl?: string
@@ -53,6 +65,8 @@ interface Props {
   feelsLikeLabel?: string
   icon?: string
   live?: boolean
+  visual?: WeatherVisual
+  alertKinds?: WeatherAlertKind[]
 }
 
 const { icon = 'filter_drama', live = false } = defineProps<Props>()
@@ -68,14 +82,16 @@ const { icon = 'filter_drama', live = false } = defineProps<Props>()
         class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
       <div v-else class="h-full w-full bg-gradient-to-br from-primary-container via-secondary-container/60 to-tertiary-container/40" />
-      <!-- Dark scrim is always image-based (not theme tokens) so text stays legible in light mode. -->
+      <!-- Dark scrim is always image-based (not theme tokens) so text stays legible in light mode. Lighter than a full vignette - the text's own text-shadow (see the content layer below) carries most of the legibility, so the photo itself doesn't have to go this dark to compensate. -->
       <div
-        class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60"
+        class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/5 to-black/40"
         aria-hidden="true"
       />
+      <!-- Particles render above the scrim (not between it and the photo) so they stay visible instead of getting dimmed by it - text above still wins on contrast since it has its own text-shadow. -->
+      <WeatherAnimationOverlay v-if="visual" :visual="visual" :alert-kinds="alertKinds" />
     </div>
 
-    <div class="relative z-10 flex h-full flex-col justify-between p-container-padding text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]">
+    <div class="relative z-10 flex h-full flex-col justify-between p-container-padding text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.55)]">
       <div class="flex items-start justify-between">
         <div>
           <p class="font-label-caps text-label-caps uppercase tracking-widest text-white/90">
