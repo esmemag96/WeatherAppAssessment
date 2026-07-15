@@ -179,15 +179,16 @@ describe('useFavoritesPage', () => {
     expect(useFavoritesStore().isFavorite('1')).toBe(false)
   })
 
-  it('reorders favorites when moveFavorite is triggered via drag handlers', async () => {
+  it('reorders favorites when moveFavorite is triggered via reorder handlers', async () => {
     useFavoritesStore().addFavorite(buildLocation({ id: '1', name: 'London' }))
     useFavoritesStore().addFavorite(buildLocation({ id: '2', name: 'Paris' }))
 
     const { result } = mountFavoritesPage({ router: createFakeRouter(), weatherRepository: createFakeWeatherRepository() })
     await flushPromises()
 
-    result.onDragStart(0)
-    result.onDrop(1)
+    result.onReorderStart(0)
+    result.onDragOver(1, { preventDefault: () => {} } as unknown as DragEvent)
+    result.onReorderEnd()
 
     expect(result.favoriteItems.value.map((item) => item.id)).toEqual(['2', '1'])
     expect(useFavoritesStore().favorites.map((favorite) => favorite.id)).toEqual(['2', '1'])

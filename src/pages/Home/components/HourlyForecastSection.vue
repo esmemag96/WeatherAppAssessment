@@ -27,7 +27,7 @@ defineProps<{ items: HourlyForecastItem[] }>()
 <template>
   <section v-if="items.length">
     <SectionHeader title="Hourly Forecast" />
-    <div class="-mx-1 mt-4 flex gap-4 overflow-x-auto px-1 pb-2">
+    <div class="-mx-1 mt-4 flex gap-4 overflow-x-auto px-1 pb-2" data-swipe-ignore>
       <ForecastHourlyCard
         v-for="(item, index) in items"
         :key="`${item.timeLabel}-${index}`"

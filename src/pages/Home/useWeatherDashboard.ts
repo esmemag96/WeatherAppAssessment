@@ -8,6 +8,7 @@ import { useGeolocation } from '@/features/geolocation'
 import { useRecentSearchesStore } from '@/features/recent-searches'
 import { useSettingsStore } from '@/features/settings'
 import { resolveAirQualityCategory, resolveUvIndexLabel } from '@/infrastructure/air-quality'
+import { resolveWeatherAlerts } from '@/infrastructure/alerts'
 import {
   resolveConditionLabel,
   resolveHeroBackgroundImage,
@@ -163,6 +164,48 @@ export function useWeatherDashboard(options: UseWeatherDashboardOptions = {}) {
     router.push(ROUTE_PATHS.search)
   }
 
+  // --- Swipe-between-locations carousel (Apple Weather-style) -------------
+  // The carousel doesn't introduce a second source of truth: every page is
+  // still just `forecastStore.selectedLocation` swapped out via
+  // `loadForecast`, so favorite/search/header logic above keeps working
+  // unmodified regardless of whether the user got here by swiping.
+  /**
+   * Favorites, with the currently-loaded location spliced in at its
+   * natural spot if it isn't already one (e.g. a fresh search or a
+   * geolocated position) - so swiping never strands the user on a page
+   * that then disappears from under them.
+   */
+  const carouselLocations = computed<Location[]>(() => {
+    const favorites = favoritesStore.favorites
+    if (!location.value || favoritesStore.isFavorite(location.value.id)) return favorites
+    return [location.value, ...favorites]
+  })
+
+  const activeCarouselIndex = computed(() => {
+    if (!location.value) return 0
+    const index = carouselLocations.value.findIndex((item) => item.id === location.value?.id)
+    return index === -1 ? 0 : index
+  })
+
+  /** Direction of the most recent carousel navigation - drives which slide transition (`slide-next`/`slide-prev`) plays. */
+  const swipeDirection = ref<'next' | 'prev'>('next')
+
+  function goToCarouselIndex(index: number): void {
+    const pages = carouselLocations.value
+    if (index < 0 || index >= pages.length || index === activeCarouselIndex.value) return
+
+    swipeDirection.value = index > activeCarouselIndex.value ? 'next' : 'prev'
+    void forecastStore.loadForecast(pages[index])
+  }
+
+  function goToNextLocation(): void {
+    goToCarouselIndex(activeCarouselIndex.value + 1)
+  }
+
+  function goToPreviousLocation(): void {
+    goToCarouselIndex(activeCarouselIndex.value - 1)
+  }
+
   function retry(): void {
     void forecastStore.retry()
   }
@@ -186,6 +229,7 @@ export function useWeatherDashboard(options: UseWeatherDashboardOptions = {}) {
 
     return {
       backgroundImageUrl: resolveHeroBackgroundImage(visual),
+      visual,
       condition: resolveConditionLabel(current.condition),
       dateLabel: formatFullDate(current.observedAt),
       temperatureLabel: String(convertTemperature(current.temperatureC, temperatureUnit.value)),
@@ -195,6 +239,13 @@ export function useWeatherDashboard(options: UseWeatherDashboardOptions = {}) {
       // "Live" signals this is a fresh reading, not a stale offline cache.
       live: !isOffline.value,
     }
+  })
+
+  /** Locally-derived advisories (see `resolveWeatherAlerts`) - most severe first, empty when nothing crosses a threshold. */
+  const alerts = computed(() => {
+    const current = forecast.value?.current
+    if (!current) return []
+    return resolveWeatherAlerts(current, forecast.value?.daily[0])
   })
 
   const hourlyItems = computed(() => {
@@ -303,6 +354,7 @@ export function useWeatherDashboard(options: UseWeatherDashboardOptions = {}) {
     headerTitle,
     headerSubtitle,
     hero,
+    alerts,
     hourlyItems,
     dailyItems,
     metricItems,
@@ -310,6 +362,12 @@ export function useWeatherDashboard(options: UseWeatherDashboardOptions = {}) {
     toggleFavorite,
     goToSearch,
     retry,
+    carouselLocations,
+    activeCarouselIndex,
+    swipeDirection,
+    goToNextLocation,
+    goToPreviousLocation,
+    goToCarouselIndex,
     showLocationPrompt,
     isLocating: geolocation.isLocating,
     locationError: geolocation.error,

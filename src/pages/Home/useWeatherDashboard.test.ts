@@ -443,4 +443,131 @@ describe('useWeatherDashboard', () => {
 
     expect(router.push).toHaveBeenCalledWith(ROUTE_PATHS.search)
   })
+
+  it('exposes no alerts for unremarkable forecast data', async () => {
+    const forecastStore = useForecastStore()
+    forecastStore.selectedLocation = buildLocation()
+    forecastStore.forecast = buildForecast()
+
+    const { result } = mountDashboard({ router: createFakeRouter() })
+    await flushPromises()
+
+    expect(result.alerts.value).toEqual([])
+  })
+
+  it('exposes locally-derived alerts (see resolveWeatherAlerts) when the forecast crosses a threshold', async () => {
+    const forecastStore = useForecastStore()
+    forecastStore.selectedLocation = buildLocation()
+    forecastStore.forecast = buildForecast({
+      daily: [
+        { date: '2026-10-14', minTemperatureC: 20, maxTemperatureC: 38, condition: 'clear', precipitationChancePercent: 5 },
+      ],
+    })
+
+    const { result } = mountDashboard({ router: createFakeRouter() })
+    await flushPromises()
+
+    expect(result.alerts.value).toHaveLength(1)
+    expect(result.alerts.value[0]).toMatchObject({ kind: 'heat', severity: 'severe' })
+  })
+
+  describe('the swipe-between-locations carousel', () => {
+    it('lists favorites as carousel pages, with the active one tracked by activeCarouselIndex', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
+      const favoritesStore = useFavoritesStore()
+      const paris = buildLocation({ id: 'paris', name: 'Paris' })
+      const tokyo = buildLocation({ id: 'tokyo', name: 'Tokyo' })
+      favoritesStore.addFavorite(paris)
+      favoritesStore.addFavorite(tokyo)
+
+      const forecastStore = useForecastStore()
+      await forecastStore.loadForecast(tokyo)
+
+      const { result } = mountDashboard({ router: createFakeRouter() })
+      await flushPromises()
+
+      expect(result.carouselLocations.value.map((item) => item.id)).toEqual(['paris', 'tokyo'])
+      expect(result.activeCarouselIndex.value).toBe(1)
+    })
+
+    it('prepends the current non-favorite location so swiping never strands the user on a page that disappears', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
+      const favoritesStore = useFavoritesStore()
+      favoritesStore.addFavorite(buildLocation({ id: 'paris', name: 'Paris' }))
+
+      const forecastStore = useForecastStore()
+      await forecastStore.loadForecast(buildLocation({ id: 'searched', name: 'Searched City' }))
+
+      const { result } = mountDashboard({ router: createFakeRouter() })
+      await flushPromises()
+
+      expect(result.carouselLocations.value.map((item) => item.id)).toEqual(['searched', 'paris'])
+      expect(result.activeCarouselIndex.value).toBe(0)
+    })
+
+    it('goToNextLocation/goToPreviousLocation load the neighboring page and set the swipe direction', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
+      const favoritesStore = useFavoritesStore()
+      const paris = buildLocation({ id: 'paris', name: 'Paris' })
+      const tokyo = buildLocation({ id: 'tokyo', name: 'Tokyo' })
+      favoritesStore.addFavorite(paris)
+      favoritesStore.addFavorite(tokyo)
+
+      const forecastStore = useForecastStore()
+      await forecastStore.loadForecast(paris)
+
+      const { result } = mountDashboard({ router: createFakeRouter() })
+      await flushPromises()
+
+      result.goToNextLocation()
+      await flushPromises()
+      expect(forecastStore.selectedLocation?.id).toBe('tokyo')
+      expect(result.swipeDirection.value).toBe('next')
+
+      result.goToPreviousLocation()
+      await flushPromises()
+      expect(forecastStore.selectedLocation?.id).toBe('paris')
+      expect(result.swipeDirection.value).toBe('prev')
+    })
+
+    it('clamps at the edges instead of wrapping around', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
+      const favoritesStore = useFavoritesStore()
+      const paris = buildLocation({ id: 'paris', name: 'Paris' })
+      favoritesStore.addFavorite(paris)
+
+      const forecastStore = useForecastStore()
+      await forecastStore.loadForecast(paris)
+
+      const { result } = mountDashboard({ router: createFakeRouter() })
+      await flushPromises()
+
+      result.goToPreviousLocation()
+      await flushPromises()
+      expect(forecastStore.selectedLocation?.id).toBe('paris')
+
+      result.goToNextLocation()
+      await flushPromises()
+      expect(forecastStore.selectedLocation?.id).toBe('paris')
+    })
+
+    it('goToCarouselIndex jumps directly to the requested page', async () => {
+      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
+      const favoritesStore = useFavoritesStore()
+      const paris = buildLocation({ id: 'paris', name: 'Paris' })
+      const tokyo = buildLocation({ id: 'tokyo', name: 'Tokyo' })
+      favoritesStore.addFavorite(paris)
+      favoritesStore.addFavorite(tokyo)
+
+      const forecastStore = useForecastStore()
+      await forecastStore.loadForecast(paris)
+
+      const { result } = mountDashboard({ router: createFakeRouter() })
+      await flushPromises()
+
+      result.goToCarouselIndex(1)
+      await flushPromises()
+      expect(forecastStore.selectedLocation?.id).toBe('tokyo')
+    })
+  })
 })

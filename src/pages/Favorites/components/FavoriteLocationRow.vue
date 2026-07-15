@@ -1,28 +1,3 @@
-<!--
-  FavoriteLocationRow
-  -------------------
-  Purpose:
-    A single favorited-location row: drag handle, city name + current
-    condition, color-coded icon and temperature, and a remove control.
-    Tapping the main area selects it (loads its forecast); dragging the
-    handle reorders the list.
-
-  Props:
-    - name (string, required): location name, e.g. "London".
-    - weatherStatus ('idle' | 'loading' | 'ready' | 'error', default 'idle').
-    - conditionLabel (string, optional): e.g. "Cloudy", "Clear Night".
-    - temperatureLabel (string, optional): e.g. "12°".
-    - icon (string, optional): Material Symbol for the current condition.
-    - iconColorClass (string, optional): Tailwind text-color utility shared
-      by the icon and temperature.
-    - dragging (boolean, default false): dims the row while it is being dragged.
-    - dragOver (boolean, default false): highlights the row as a drop target.
-
-  Events:
-    - select: the row was activated.
-    - remove: the star was pressed to un-favorite this location.
-    - drag-start / drag-over / drop / drag-end: reorder gestures.
--->
 <script setup lang="ts">
 import type { FavoriteWeatherStatus } from '../useFavoritesPage'
 
@@ -31,6 +6,7 @@ import { cn } from '@/shared/utils'
 
 interface Props {
   name: string
+  reorderIndex: number
   weatherStatus?: FavoriteWeatherStatus
   conditionLabel?: string
   temperatureLabel?: string
@@ -42,6 +18,7 @@ interface Props {
 
 const {
   name,
+  reorderIndex,
   weatherStatus = 'idle',
   iconColorClass = 'text-on-surface-variant',
   dragging = false,
@@ -51,44 +28,54 @@ const {
 const emit = defineEmits<{
   select: []
   remove: []
-  'drag-start': [DragEvent]
-  'drag-over': [DragEvent]
-  drop: []
-  'drag-end': []
+  'reorder-start': [number]
+  'reorder-move': [PointerEvent]
+  'reorder-end': []
 }>()
 
-function onDragStart(event: DragEvent): void {
-  if (event.dataTransfer) {
-    event.dataTransfer.effectAllowed = 'move'
-    event.dataTransfer.setData('text/plain', name)
+function onHandlePointerDown(event: PointerEvent): void {
+  if (event.pointerType === 'mouse' && event.button !== 0) return
+
+  const handle = event.currentTarget as HTMLElement
+  handle.setPointerCapture(event.pointerId)
+  emit('reorder-start', reorderIndex)
+}
+
+function onHandlePointerMove(event: PointerEvent): void {
+  emit('reorder-move', event)
+}
+
+function onHandlePointerEnd(event: PointerEvent): void {
+  const handle = event.currentTarget as HTMLElement
+  if (handle.hasPointerCapture(event.pointerId)) {
+    handle.releasePointerCapture(event.pointerId)
   }
-  emit('drag-start', event)
+  emit('reorder-end')
 }
 </script>
 
 <template>
-  <Card
-    rounded="xl"
-    padding="md"
-    :class="
-      cn(
-        'flex items-center gap-3 transition-all duration-200 ease-swift',
-        dragging && 'opacity-50',
-        dragOver && 'ring-2 ring-primary/40',
-      )
-    "
-    @dragover="emit('drag-over', $event)"
-    @drop.prevent="emit('drop')"
-    @dragend="emit('drag-end')"
-  >
+  <div :data-reorder-index="reorderIndex">
+    <Card
+      rounded="xl"
+      padding="md"
+      :class="
+        cn(
+          'flex items-center gap-3 transition-all duration-200 ease-swift',
+          dragging && 'opacity-50',
+          dragOver && 'ring-2 ring-primary/40',
+        )
+      "
+    >
     <button
       type="button"
-      draggable="true"
       aria-label="Reorder favorite"
       class="flex h-10 w-8 shrink-0 cursor-grab touch-none items-center justify-center rounded-lg text-on-surface-variant transition-colors hover:bg-overlay-hover hover:text-on-surface active:cursor-grabbing"
       @click.stop
-      @dragstart="onDragStart"
-      @dragend="emit('drag-end')"
+      @pointerdown="onHandlePointerDown"
+      @pointermove="onHandlePointerMove"
+      @pointerup="onHandlePointerEnd"
+      @pointercancel="onHandlePointerEnd"
     >
       <Icon name="drag_indicator" size="sm" />
     </button>
@@ -115,5 +102,6 @@ function onDragStart(event: DragEvent): void {
       <LoadingSkeleton v-else-if="weatherStatus === 'loading'" shape="pill" width="3.5rem" height="1.75rem" />
     </button>
     <FavoriteButton :model-value="true" size="sm" label="Remove from favorites" @update:model-value="$emit('remove')" />
-  </Card>
+    </Card>
+  </div>
 </template>

@@ -12,13 +12,21 @@ import { EmptyState, PageContainer, PageHeader } from '@/shared/components'
 import FavoriteLocationRow from './components/FavoriteLocationRow.vue'
 import { useFavoritesPage } from './useFavoritesPage'
 
-const { favoriteItems, draggingIndex, dragOverIndex, onDragStart, onDragOver, onDrop, onDragEnd, selectFavorite, removeFavorite } =
-  useFavoritesPage()
+const {
+  favoriteItems,
+  draggingIndex,
+  dragOverIndex,
+  onReorderStart,
+  onReorderMove,
+  onReorderEnd,
+  selectFavorite,
+  removeFavorite,
+} = useFavoritesPage()
 </script>
 
 <template>
   <PageContainer>
-    <PageHeader title="Favorites" subtitle="Drag the handle to reorder your saved locations." />
+    <PageHeader title="Favorites" subtitle="Press and hold the handle to reorder your saved locations." />
 
     <EmptyState
       v-if="favoriteItems.length === 0"
@@ -31,6 +39,7 @@ const { favoriteItems, draggingIndex, dragOverIndex, onDragStart, onDragOver, on
       <FavoriteLocationRow
         v-for="(item, index) in favoriteItems"
         :key="item.id"
+        :reorder-index="index"
         :name="item.name"
         :weather-status="item.weatherStatus"
         :condition-label="item.conditionLabel"
@@ -41,10 +50,9 @@ const { favoriteItems, draggingIndex, dragOverIndex, onDragStart, onDragOver, on
         :drag-over="dragOverIndex === index && draggingIndex !== index"
         @select="selectFavorite(item.location)"
         @remove="removeFavorite(item.id)"
-        @drag-start="onDragStart(index)"
-        @drag-over="onDragOver(index, $event)"
-        @drop="onDrop(index)"
-        @drag-end="onDragEnd"
+        @reorder-start="onReorderStart"
+        @reorder-move="onReorderMove"
+        @reorder-end="onReorderEnd"
       />
     </div>
   </PageContainer>

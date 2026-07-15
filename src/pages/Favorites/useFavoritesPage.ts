@@ -139,24 +139,43 @@ export function useFavoritesPage(options: UseFavoritesPageOptions = {}) {
   const draggingIndex = ref<number | null>(null)
   const dragOverIndex = ref<number | null>(null)
 
-  function onDragStart(index: number): void {
+  function onReorderStart(index: number): void {
     draggingIndex.value = index
+  }
+
+  function onReorderMove(event: PointerEvent): void {
+    if (draggingIndex.value === null) return
+
+    event.preventDefault()
+
+    const element = document.elementFromPoint(event.clientX, event.clientY)
+    const row = element?.closest('[data-reorder-index]')
+    if (!row) return
+
+    const index = Number((row as HTMLElement).dataset.reorderIndex)
+    if (!Number.isNaN(index)) dragOverIndex.value = index
+  }
+
+  function onReorderEnd(): void {
+    if (draggingIndex.value === null) {
+      onDragEnd()
+      return
+    }
+
+    const fromIndex = draggingIndex.value
+    const toIndex = dragOverIndex.value
+
+    if (toIndex !== null && toIndex !== fromIndex) {
+      favoritesStore.moveFavorite(fromIndex, toIndex)
+    }
+
+    onDragEnd()
   }
 
   function onDragOver(index: number, event: DragEvent): void {
     event.preventDefault()
     if (event.dataTransfer) event.dataTransfer.dropEffect = 'move'
     dragOverIndex.value = index
-  }
-
-  function onDrop(index: number): void {
-    if (draggingIndex.value === null || draggingIndex.value === index) {
-      onDragEnd()
-      return
-    }
-
-    favoritesStore.moveFavorite(draggingIndex.value, index)
-    onDragEnd()
   }
 
   function onDragEnd(): void {
@@ -182,9 +201,10 @@ export function useFavoritesPage(options: UseFavoritesPageOptions = {}) {
     isLoadingWeather,
     draggingIndex,
     dragOverIndex,
-    onDragStart,
+    onReorderStart,
+    onReorderMove,
+    onReorderEnd,
     onDragOver,
-    onDrop,
     onDragEnd,
     selectFavorite,
     removeFavorite,

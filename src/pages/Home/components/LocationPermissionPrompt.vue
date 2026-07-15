@@ -49,7 +49,7 @@ defineEmits<{ allow: []; dismiss: [] }>()
       <div class="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
         <Icon name="my_location" size="lg" class="text-primary" />
       </div>
-      <p class="font-body-lg text-body-lg text-on-surface-variant">
+      <p class="font-body-md text-body-md leading-snug text-on-surface-variant sm:font-body-lg sm:text-body-lg sm:leading-normal">
         See the forecast for where you are right now? Your browser will ask for permission - you can always search
         for a city instead.
       </p>
