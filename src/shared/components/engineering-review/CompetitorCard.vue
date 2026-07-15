@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="ax-card flex w-64 shrink-0 flex-col p-5 sm:w-auto">
+  <div class="glass-card flex w-64 shrink-0 flex-col p-5 sm:w-auto">
     <h3 class="text-sm font-semibold ax-heading">{{ competitor.name }}</h3>
     <dl class="mt-4 space-y-3 text-sm">
       <div>
@@ -15,8 +15,8 @@ defineProps<{
         <dd class="mt-0.5 ax-body">{{ competitor.worksWell }}</dd>
       </div>
       <div>
-        <dt class="text-xs ax-faint">Doesn't</dt>
-        <dd class="mt-0.5 ax-muted">{{ competitor.doesNot }}</dd>
+        <dt class="text-xs ax-faint">Doesn't work</dt>
+        <dd class="mt-0.5 ax-muted">{{ competitor.doesntWork }}</dd>
       </div>
       <div>
         <dt class="text-xs ax-emerald-text">Adopted</dt>

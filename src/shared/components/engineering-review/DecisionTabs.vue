@@ -35,15 +35,11 @@ const tabs = [
       </button>
     </div>
     <div class="px-5 py-4 text-sm ax-body" role="tabpanel">
-      <p v-if="activeTab === 'context'">{{ record.context }}</p>
-      <p v-if="activeTab === 'decision'">{{ record.decision }}</p>
-      <ul v-if="activeTab === 'alternatives'" class="list-inside list-disc space-y-1 ax-muted">
-        <li v-for="alt in record.alternatives" :key="alt">{{ alt }}</li>
-      </ul>
-      <ul v-if="activeTab === 'tradeoffs'" class="list-inside list-disc space-y-1 ax-muted">
-        <li v-for="t in record.tradeoffs" :key="t">{{ t }}</li>
-      </ul>
-      <p v-if="activeTab === 'future'">{{ record.futureEvolution }}</p>
+      <p v-if="activeTab === 'context'">{{ record.tabs.context }}</p>
+      <p v-if="activeTab === 'decision'">{{ record.tabs.decision }}</p>
+      <p v-if="activeTab === 'alternatives'">{{ record.tabs.alternatives }}</p>
+      <p v-if="activeTab === 'tradeoffs'">{{ record.tabs.tradeoffs }}</p>
+      <p v-if="activeTab === 'future'">{{ record.tabs.future }}</p>
     </div>
   </div>
 </template>

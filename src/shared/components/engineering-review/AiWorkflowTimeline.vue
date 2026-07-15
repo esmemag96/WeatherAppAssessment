@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import type { AiWorkflowStageData } from '@/content/artifacts/types'
 
-import TimelineStep from './TimelineStep.vue'
-
-const props = defineProps<{
+defineProps<{
   stages: AiWorkflowStageData[]
   activeId: string
 }>()
@@ -11,65 +9,48 @@ const props = defineProps<{
 const emit = defineEmits<{
   select: [id: string]
 }>()
-
-function select(id: string): void {
-  emit('select', id)
-}
-
-const active = () => props.stages.find((s) => s.id === props.activeId) ?? props.stages[0]!
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div
-      class="flex gap-2 overflow-x-auto pb-2"
-      role="tablist"
-      aria-label="AI workflow stages"
-    >
-      <template v-for="(stage, index) in stages" :key="stage.id">
-        <TimelineStep
-          :label="stage.label"
-          :active="activeId === stage.id"
-          @click="select(stage.id)"
-        />
-        <span
-          v-if="index < stages.length - 1"
-          class="hidden shrink-0 self-center text-sm ax-arrow sm:inline"
-          aria-hidden="true"
+  <div class="er-ai-workflow">
+    <ol class="er-ai-workflow__rail" aria-label="Engineering workflow stages">
+      <li v-for="(stage, index) in stages" :key="stage.id" class="er-ai-workflow__step">
+        <button
+          type="button"
+          class="er-ai-workflow__node ax-focus"
+          :class="{ 'er-ai-workflow__node--active': activeId === stage.id }"
+          :aria-current="activeId === stage.id ? 'true' : undefined"
+          @click="emit('select', stage.id)"
         >
-          →
-        </span>
-      </template>
-    </div>
+          <span class="er-ai-workflow__index">{{ String(index + 1).padStart(2, '0') }}</span>
+          <span class="er-ai-workflow__label">{{ stage.label }}</span>
+        </button>
+        <span v-if="index < stages.length - 1" class="er-ai-workflow__arrow" aria-hidden="true">↓</span>
+      </li>
+    </ol>
 
     <div
-      v-if="active()"
-      class="grid gap-4 sm:grid-cols-2"
-      role="tabpanel"
-      :aria-label="`${active().label} workflow details`"
+      v-for="stage in stages"
+      v-show="activeId === stage.id"
+      :key="`panel-${stage.id}`"
+      class="er-ai-workflow__panel"
+      role="region"
+      :aria-label="`${stage.label} contributions`"
     >
-      <div class="ax-card p-5">
-        <h4 class="ax-label">AI Contribution</h4>
+      <div>
+        <h4 class="ax-label">Where AI contributed</h4>
         <ul class="mt-3 space-y-2">
-          <li
-            v-for="item in active().aiContribution"
-            :key="item"
-            class="flex gap-2 text-sm ax-muted"
-          >
-            <span class="ax-faint" aria-hidden="true">•</span>
+          <li v-for="item in stage.aiContribution" :key="item" class="flex gap-2 text-sm ax-muted">
+            <span class="er-text-primary shrink-0" aria-hidden="true">→</span>
             <span>{{ item }}</span>
           </li>
         </ul>
       </div>
-      <div class="ax-card p-5">
-        <h4 class="ax-emerald-heading">Engineer Responsibility</h4>
+      <div>
+        <h4 class="ax-emerald-heading text-xs uppercase tracking-widest">What I owned</h4>
         <ul class="mt-3 space-y-2">
-          <li
-            v-for="item in active().engineerResponsibility"
-            :key="item"
-            class="flex gap-2 text-sm ax-muted"
-          >
-            <span class="ax-faint" aria-hidden="true">•</span>
+          <li v-for="item in stage.engineerResponsibility" :key="item" class="flex gap-2 text-sm ax-muted">
+            <span class="ax-emerald-text shrink-0" aria-hidden="true">→</span>
             <span>{{ item }}</span>
           </li>
         </ul>

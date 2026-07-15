@@ -27,8 +27,10 @@ describe('artifact routes', () => {
     const redirects = [
       { from: '/artifacts/project-brief', hash: '#summary' },
       { from: '/artifacts/discovery', hash: '#uncertainty' },
+      { from: '/artifacts/design', hash: '#design' },
       { from: '/artifacts/architecture', hash: '#architecture' },
-      { from: '/artifacts/adrs', hash: '#decisions' },
+      { from: '/artifacts/adrs', hash: '#architecture' },
+      { from: '/artifacts/deployment', hash: '#deployment' },
       { from: '/artifacts/retrospective', hash: '#retrospective' },
     ] as const
 

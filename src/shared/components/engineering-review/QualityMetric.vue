@@ -14,7 +14,7 @@ defineProps<{
     </div>
     <p class="mt-3 text-sm ax-muted">{{ metric.description }}</p>
     <p class="mt-3 text-xs ax-faint">
-      <span class="font-medium ax-muted">Future:</span> {{ metric.futureImprovement }}
+      <span class="font-medium ax-muted">Future:</span> {{ metric.futureImprovements }}
     </p>
   </div>
 </template>

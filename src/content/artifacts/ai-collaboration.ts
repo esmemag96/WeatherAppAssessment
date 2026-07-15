@@ -1,265 +1,130 @@
-import type {
-  AiLessonsColumn,
-  AiPrincipleData,
-  AiToolCardData,
-  AiWorkflowStageData,
-  OwnershipMatrixRow,
-} from './types'
+import type { AiPrincipleData, AiWorkflowStageData } from './types'
 
 export const aiCollaborationContent = {
-  title: 'AI Collaboration',
+  title: 'Using AI During the Project',
   subtitle:
-    'How AI accelerated exploration, implementation and documentation while engineering ownership remained human.',
+    'AI was part of my workflow, but not my decision maker. Every suggestion was reviewed before becoming part of the project.',
+  principle:
+    'Use AI to accelerate exploration and preparation — architectural decisions, trade-offs, and final ownership stay with the engineer.',
   philosophy: {
-    title: 'Engineering Philosophy',
+    title: 'How I used AI',
     paragraphs: [
-      'Artificial Intelligence was treated as a collaborative engineering tool rather than a replacement for engineering judgment.',
-      'It accelerated research, prototyping, documentation and implementation, while architectural decisions, trade-offs, validation and final ownership remained with the developer.',
+      'I created my own GPT to help throughout the project: challenge assumptions, explore approaches, compare architectural ideas, generate questions I had not considered, break work into steps, and prepare prompts for other tools.',
+      'I see AI as a way to accelerate engineering work, not replace engineering judgment.',
     ],
   },
-  workflow: {
-    title: 'Workflow',
-    stages: [
-      {
-        id: 'requirement',
-        label: 'Requirement',
-        aiContribution: [
-          'Parsed ambiguous requirement language',
-          'Surfaced undefined expectations',
-          'Suggested clarification angles',
-        ],
-        engineerResponsibility: [
-          'Interpreted the requirement',
-          'Set assessment boundaries',
-          'Defined what success looks like',
-        ],
-      },
-      {
-        id: 'discovery',
-        label: 'Discovery',
-        aiContribution: [
-          'Generated discovery questions',
-          'Suggested assumptions',
-          'Highlighted missing requirements',
-          'Proposed product alternatives',
-        ],
-        engineerResponsibility: [
-          'Defined project scope',
-          'Selected assumptions',
-          'Prioritized requirements',
-          'Accepted or rejected proposals',
-        ],
-      },
-      {
-        id: 'research',
-        label: 'Research',
-        aiContribution: [
-          'Summarized competitors',
-          'Compared weather providers',
-          'Suggested UX patterns',
-        ],
-        engineerResponsibility: [
-          'Evaluated trade-offs',
-          'Selected applicable practices',
-          'Rejected unnecessary complexity',
-        ],
-      },
-      {
-        id: 'architecture',
-        label: 'Architecture',
-        aiContribution: [
-          'Proposed architectural patterns',
-          'Suggested diagrams',
-          'Compared alternatives',
-          'Reviewed architecture',
-        ],
-        engineerResponsibility: [
-          'Selected architecture',
-          'Simplified unnecessary complexity',
-          'Validated technical decisions',
-          'Defined project boundaries',
-        ],
-      },
-      {
-        id: 'design',
-        label: 'Design',
-        aiContribution: [
-          'Generated UI concepts',
-          'Explored layouts',
-          'Produced initial mockups',
-        ],
-        engineerResponsibility: [
-          'Approved final design direction',
-          'Refined interactions',
-          'Defined reusable components',
-          'Balanced UX against implementation effort',
-        ],
-      },
-      {
-        id: 'implementation',
-        label: 'Implementation',
-        aiContribution: [
-          'Generated boilerplate',
-          'Assisted with repetitive code',
-          'Suggested refactoring',
-          'Generated tests',
-        ],
-        engineerResponsibility: [
-          'Reviewed every implementation',
-          'Refactored generated code',
-          'Ensured architectural consistency',
-          'Verified correctness',
-          'Fixed defects',
-        ],
-      },
-      {
-        id: 'testing',
-        label: 'Testing',
-        aiContribution: [
-          'Suggested test cases',
-          'Generated test scaffolding',
-        ],
-        engineerResponsibility: [
-          'Validated coverage',
-          'Added missing scenarios',
-          'Executed testing',
-          'Reviewed failures',
-        ],
-      },
-      {
-        id: 'deployment',
-        label: 'Deployment',
-        aiContribution: [
-          'Suggested deployment configuration',
-          'Reviewed CI/CD setup',
-        ],
-        engineerResponsibility: [
-          'Configured deployment',
-          'Verified production',
-          'Monitored final application',
-        ],
-      },
-    ] satisfies AiWorkflowStageData[],
-  },
-  ownershipMatrix: {
-    title: 'Decision Ownership Matrix',
-    rows: [
-      { activity: 'Requirement Analysis', aiAssisted: true, humanDecision: true },
-      { activity: 'Discovery', aiAssisted: true, humanDecision: true },
-      { activity: 'Competitor Research', aiAssisted: true, humanDecision: true },
-      { activity: 'Assumption Generation', aiAssisted: true, humanDecision: true },
-      { activity: 'Product Scope', aiAssisted: true, humanDecision: true },
-      { activity: 'Architecture', aiAssisted: true, humanDecision: true },
-      { activity: 'Technology Selection', aiAssisted: true, humanDecision: true },
-      { activity: 'UI Exploration', aiAssisted: true, humanDecision: true },
-      { activity: 'Code Generation', aiAssisted: true, humanDecision: true },
-      { activity: 'Code Review', aiAssisted: true, humanDecision: true },
-      { activity: 'Testing Strategy', aiAssisted: true, humanDecision: true },
-      { activity: 'Deployment', aiAssisted: true, humanDecision: true },
-      { activity: 'Final Approval', aiAssisted: false, humanDecision: true },
-      { activity: 'Engineering Ownership', aiAssisted: false, humanDecision: true },
-    ] satisfies OwnershipMatrixRow[],
-  },
-  tools: {
-    title: 'Tools Used',
-    items: [
-      {
-        name: 'ChatGPT',
-        purposes: [
-          'discovery',
-          'architecture discussions',
-          'decision reviews',
-          'documentation',
-          'implementation planning',
-        ],
-        typicalOutput: 'Structured notes, ADR drafts, trade-off comparisons, and scope proposals.',
-        whyUsed: 'Strong at synthesizing ambiguous requirements into reviewable engineering artifacts.',
-      },
-      {
-        name: 'Cursor',
-        purposes: ['implementation', 'refactoring', 'boilerplate', 'project scaffolding'],
-        typicalOutput: 'Vue components, store modules, test files, and incremental refactors.',
-        whyUsed: 'Tight editor integration kept generated code in context with the existing architecture.',
-      },
-      {
-        name: 'Stitch',
-        purposes: ['UI exploration', 'mockups', 'design direction'],
-        typicalOutput: 'Layout explorations and visual references for dashboard and search flows.',
-        whyUsed: 'Accelerated early UI direction without committing to unreviewed design decisions.',
-      },
-      {
-        name: 'Eraser',
-        purposes: ['architecture diagrams', 'technical documentation'],
-        typicalOutput: 'Layer diagrams and data-flow sketches for architecture review.',
-        whyUsed: 'Fast diagram iteration to validate structure before implementation.',
-      },
-      {
-        name: 'GitHub',
-        purposes: ['version control', 'project history', 'collaboration'],
-        typicalOutput: 'Commit history, pull requests, and traceable engineering decisions.',
-        whyUsed: 'Preserved ownership, reviewability, and accountability across the full workflow.',
-      },
-    ] satisfies AiToolCardData[],
-  },
+  uses: [
+    'Challenge assumptions',
+    'Explore different approaches',
+    'Compare architectural ideas',
+    'Generate questions I had not considered',
+    'Break the project into manageable steps',
+    'Prepare prompts for other AI tools',
+  ],
+  workflow: [
+    {
+      id: 'requirement',
+      label: 'Requirement',
+      aiContribution: [
+        'Helped rephrase the open-ended request into concrete product questions',
+        'Suggested dimensions of scope I might have overlooked',
+      ],
+      engineerResponsibility: [
+        'Owned the final product boundary',
+        'Decided what "weather app" meant for this assessment',
+      ],
+    },
+    {
+      id: 'research',
+      label: 'Research',
+      aiContribution: [
+        'Summarized patterns across consumer weather apps',
+        'Helped structure keep / leave-out comparisons',
+      ],
+      engineerResponsibility: [
+        'Evaluated which patterns fit a two-week MVP',
+        'Chose what to adopt and what to reject',
+      ],
+    },
+    {
+      id: 'architecture',
+      label: 'Architecture',
+      aiContribution: [
+        'Explored alternative layerings and trade-offs',
+        'Drafted questions to ask before locking the diagram',
+      ],
+      engineerResponsibility: [
+        'Chose the four-layer SPA structure',
+        'Drew boundaries in Eraser and owned the isolation principle',
+      ],
+    },
+    {
+      id: 'design',
+      label: 'Design',
+      aiContribution: [
+        'Accelerated layout exploration in Stitch',
+        'Helped enumerate states and components to define early',
+      ],
+      engineerResponsibility: [
+        'Selected the visual direction',
+        'Decided on condition-based local hero imagery',
+      ],
+    },
+    {
+      id: 'implementation',
+      label: 'Implementation',
+      aiContribution: [
+        'Generated code for milestone-sized tasks in Cursor',
+        'Helped draft scaffolding and repetitive wiring',
+      ],
+      engineerResponsibility: [
+        'Defined milestone order and definition of done',
+        'Reviewed every change against architecture and product intent',
+      ],
+    },
+    {
+      id: 'testing',
+      label: 'Testing',
+      aiContribution: [
+        'Suggested test cases and edge conditions',
+        'Helped draft unit test scaffolding',
+      ],
+      engineerResponsibility: [
+        'Decided what must be covered',
+        'Verified tests match real behavior and risk',
+      ],
+    },
+    {
+      id: 'deployment',
+      label: 'Deployment',
+      aiContribution: [
+        'Helped compare hosting options for a Vue SPA',
+        'Drafted deployment checklist items',
+      ],
+      engineerResponsibility: [
+        'Chose Vercel and wired GitHub deployments',
+        'Owned the public URL reviewers use',
+      ],
+    },
+  ] satisfies AiWorkflowStageData[],
   principles: {
-    title: 'Engineering Principles',
+    title: 'Principles I followed',
     items: [
-      {
-        id: 'ownership',
-        icon: 'verified_user',
-        text: 'AI accelerated work, not ownership. Every deliverable required explicit human acceptance.',
-      },
       {
         id: 'review',
         icon: 'rule',
-        text: 'Every architectural decision was reviewed manually against scope, complexity, and maintainability.',
+        text: 'Every suggestion was reviewed before it became part of the project.',
       },
       {
-        id: 'draft',
-        icon: 'edit_note',
-        text: 'Generated code was treated as a first draft — refactored to match project conventions before merge.',
+        id: 'ownership',
+        icon: 'verified_user',
+        text: 'AI accelerated work — architectural decisions, trade-offs, and final ownership stayed with me.',
       },
       {
-        id: 'quality',
-        icon: 'high_quality',
-        text: 'Implementation quality mattered more than generation speed. Correctness and consistency were non-negotiable.',
-      },
-      {
-        id: 'validation',
-        icon: 'fact_check',
-        text: 'Every final artifact was validated through tests, manual review, or production verification before acceptance.',
+        id: 'judgment',
+        icon: 'psychology',
+        text: 'AI helps explore ideas faster; it does not replace engineering judgment.',
       },
     ] satisfies AiPrincipleData[],
-  },
-  exampleWorkflow: {
-    title: 'Example Workflow',
-    steps: [
-      'Requirement',
-      'AI-assisted exploration',
-      'Engineering decisions',
-      'Implementation',
-      'Review',
-      'Testing',
-      'Deployment',
-    ],
-    caption:
-      'The engineering process remained iterative. AI accelerated exploration and implementation, while engineering review determined what became part of the final solution.',
-  },
-  lessonsLearned: {
-    title: 'Lessons Learned',
-    columns: [
-      {
-        title: 'What AI did well',
-        items: ['Research', 'Boilerplate', 'Documentation drafts', 'Architecture brainstorming'],
-      },
-      {
-        title: 'Where human judgment mattered most',
-        items: ['Architecture', 'Trade-offs', 'Scope', 'UX decisions', 'Quality'],
-      },
-      {
-        title: 'Future Improvements',
-        items: ['More automated evaluation', 'Reusable prompts', 'Prompt versioning', 'Prompt library'],
-      },
-    ] satisfies AiLessonsColumn[],
   },
 }

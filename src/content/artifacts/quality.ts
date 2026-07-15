@@ -2,56 +2,61 @@ import type { QualityMetricData } from './types'
 
 export const qualityContent = {
   title: 'Quality',
-  subtitle: 'Testing strategy and engineering quality indicators.',
+  subtitle: 'Honest status per area — what is done, what is partial, and what is planned.',
   metrics: [
     {
       id: 'typescript',
       label: 'TypeScript',
-      status: 'Passing (strict)',
-      description: 'Strict mode enabled throughout. vue-tsc passes on build.',
-      futureImprovement: 'Stricter eslint rules for explicit return types on public APIs.',
+      status: 'complete',
+      description:
+        'Strict mode is enabled via the Vue TypeScript preset. The app is written in TypeScript throughout, including domain types and mappers.',
+      futureImprovements: 'Tighten lint rules for explicit return types on public APIs.',
     },
     {
       id: 'vitest',
       label: 'Vitest',
-      status: '190+ tests passing',
-      description: 'Unit tests for mappers, stores, composables, and components.',
-      futureImprovement: 'Coverage reporting in CI with meaningful thresholds.',
+      status: 'partial',
+      description:
+        '190 unit tests cover domain logic, mappers, stores, repositories, and key UI components — but store edge cases and full coverage reporting are not yet in place.',
+      futureImprovements: 'Extend coverage to remaining store edge cases and add coverage reporting in CI.',
     },
     {
       id: 'playwright',
       label: 'Playwright',
-      status: 'Planned',
-      description: 'E2E tests for search, forecast, favorites, and settings flows.',
-      futureImprovement: 'Run against preview deployments on pull requests.',
+      status: 'planned',
+      description:
+        'No end-to-end tests yet — deprioritized in favor of data-layer unit tests within the one-week scope.',
+      futureImprovements: 'Add a small smoke-test suite covering search → forecast → favorite as the highest-value path.',
     },
     {
       id: 'responsive',
       label: 'Responsive',
-      status: 'Implemented',
-      description: 'Mobile-first layout from 320px to 1440px with tested breakpoints.',
-      futureImprovement: 'Visual regression tests for key viewport sizes.',
+      status: 'complete',
+      description: 'Layout adapts across mobile and desktop breakpoints, including the Engineering Review and weather app.',
+      futureImprovements: 'Validate against a wider device matrix, including small Android devices.',
     },
     {
       id: 'accessibility',
       label: 'Accessibility',
-      status: 'Manual + planned automation',
-      description: 'Keyboard navigation, semantic structure, and WCAG 2.1 AA contrast targets.',
-      futureImprovement: 'axe-core integration in CI pipeline.',
+      status: 'partial',
+      description:
+        'Semantic markup, keyboard navigation, and ARIA labels cover the core search-to-forecast flow — a full WCAG AA audit has not been run.',
+      futureImprovements: 'A full screen-reader pass and a color-contrast audit against WCAG AA.',
     },
     {
       id: 'performance',
       label: 'Performance',
-      status: 'Pending measurement',
-      description: 'Lazy-loaded routes, minimal initial bundle, cached API responses.',
-      futureImprovement: 'Lighthouse CI with performance budgets.',
+      status: 'complete',
+      description: 'Static SPA with lazy-loaded routes; no server round-trip beyond the weather API itself.',
+      futureImprovements: 'Add a Lighthouse budget to CI to catch regressions automatically.',
     },
     {
-      id: 'build',
-      label: 'Build Status',
-      status: 'Passing',
-      description: 'vue-tsc and Vite production build complete without errors.',
-      futureImprovement: 'Bundle size monitoring with size-limit checks.',
+      id: 'build-status',
+      label: 'Build status',
+      status: 'partial',
+      description:
+        'Production build, type-check, and Vitest all pass locally and deploy to Vercel — automated CI gates (lint, test, type-check on every push) are not configured yet.',
+      futureImprovements: 'Add automated checks as a required CI gate before deploy.',
     },
   ] satisfies QualityMetricData[],
 }

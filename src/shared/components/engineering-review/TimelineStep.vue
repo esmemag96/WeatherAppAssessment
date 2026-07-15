@@ -12,8 +12,9 @@ const emit = defineEmits<{
 <template>
   <button
     type="button"
-    class="ax-focus min-h-11 whitespace-nowrap rounded-lg border px-4 py-2 text-sm font-medium transition-colors"
+    class="ax-focus min-h-11 w-full cursor-pointer whitespace-nowrap rounded-lg border px-4 py-2 text-center text-sm font-medium"
     :class="active ? 'ax-interactive-selected' : 'ax-interactive'"
+    :aria-pressed="active"
     @click="emit('click')"
   >
     {{ label }}

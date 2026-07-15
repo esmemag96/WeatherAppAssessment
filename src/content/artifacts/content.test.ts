@@ -1,30 +1,25 @@
 import { describe, expect, it } from 'vitest'
 
-import { REVIEW_SECTIONS } from '@/content/artifacts/review'
+import { REVIEW_SECTIONS, STITCH_NAV_SECTIONS, resolveStitchNavSection } from '@/content/artifacts/review'
 
 describe('engineering review content', () => {
-  it('defines all required navigation sections', () => {
-    const labels = REVIEW_SECTIONS.map((s) => s.label)
-    expect(labels).toEqual([
-      'Summary',
-      'Uncertainty',
-      'Research',
-      'Decisions',
-      'Architecture',
-      'Delivery',
-      'Quality',
-      'Trade-offs',
-      'AI',
-      'Review',
+  it('defines stitch sidebar navigation', () => {
+    expect(STITCH_NAV_SECTIONS.map((s) => s.label)).toEqual([
+      'Starting Point',
+      'Audience',
+      'Technical Direction',
+      'Build Process',
     ])
   })
 
-  it('has unique section ids', () => {
-    const ids = REVIEW_SECTIONS.map((s) => s.id)
-    expect(new Set(ids).size).toBe(ids.length)
+  it('defines all in-page section anchors', () => {
+    expect(REVIEW_SECTIONS.length).toBeGreaterThan(STITCH_NAV_SECTIONS.length)
   })
 
-  it('includes ai collaboration section', () => {
-    expect(REVIEW_SECTIONS.some((s) => s.id === 'ai-collaboration')).toBe(true)
+  it('maps scroll sections to stitch nav groups', () => {
+    expect(resolveStitchNavSection('uncertainty')).toBe('uncertainty')
+    expect(resolveStitchNavSection('competitors')).toBe('audience')
+    expect(resolveStitchNavSection('architecture')).toBe('architecture')
+    expect(resolveStitchNavSection('deployment')).toBe('implementation')
   })
 })

@@ -21,14 +21,21 @@ const active = () => props.steps.find((s) => s.id === props.activeId) ?? props.s
 
 <template>
   <div class="grid gap-8 lg:grid-cols-[auto_1fr]">
-    <div class="flex flex-col items-center gap-1 lg:items-start">
+    <div class="flex w-full min-w-[11rem] flex-col items-center gap-1 sm:min-w-[13rem]">
       <template v-for="(step, index) in steps" :key="step.id">
         <TimelineStep
+          class="w-full"
           :label="step.label"
           :active="activeId === step.id"
           @click="select(step.id)"
         />
-        <span v-if="index < steps.length - 1" class="text-lg ax-arrow" aria-hidden="true">↓</span>
+        <span
+          v-if="index < steps.length - 1"
+          class="flex w-full justify-center text-lg ax-arrow"
+          aria-hidden="true"
+        >
+          ↓
+        </span>
       </template>
     </div>
 
@@ -43,8 +50,8 @@ const active = () => props.steps.find((s) => s.id === props.activeId) ?? props.s
           <dd class="mt-1 text-sm ax-body">{{ active().assumption }}</dd>
         </div>
         <div>
-          <dt class="ax-label">Rationale</dt>
-          <dd class="mt-1 text-sm ax-muted">{{ active().rationale }}</dd>
+          <dt class="ax-label">Why</dt>
+          <dd class="mt-1 text-sm ax-muted">{{ active().why }}</dd>
         </div>
         <div>
           <dt class="ax-label">Impact</dt>

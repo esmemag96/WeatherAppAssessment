@@ -23,7 +23,7 @@ const emit = defineEmits<{
     >
       <div class="min-w-0 flex-1">
         <div class="flex items-center justify-between gap-3">
-          <h3 class="text-sm font-semibold ax-heading">{{ item.name }}</h3>
+          <h3 class="text-sm font-semibold ax-heading">{{ item.label }}</h3>
           <span class="text-xs ax-faint">{{ item.progress }}%</span>
         </div>
         <div class="er-roadmap-bar mt-3">

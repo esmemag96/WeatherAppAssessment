@@ -5,13 +5,17 @@ import DecisionCard from './DecisionCard.vue'
 import { decisionsContent } from '@/content/artifacts/decisions'
 
 describe('DecisionCard', () => {
-  it('expands to show tabbed decision details', async () => {
+  it('shows proposal summary upfront and expands technical ADR tabs', async () => {
     const record = decisionsContent.records[0]!
     const wrapper = mount(DecisionCard, { props: { record } })
 
+    expect(wrapper.text()).toContain('Why')
+    expect(wrapper.text()).toContain(record.why)
+    expect(wrapper.text()).toContain(record.decisionPlain)
     expect(wrapper.text()).not.toContain('Alternatives')
-    await wrapper.find('button').trigger('click')
+
+    await wrapper.get('[aria-expanded="false"]').trigger('click')
     expect(wrapper.text()).toContain('Context')
-    expect(wrapper.text()).toContain(record.context)
+    expect(wrapper.text()).toContain(record.tabs.context)
   })
 })

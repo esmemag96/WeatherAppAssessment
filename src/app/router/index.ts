@@ -7,12 +7,12 @@ const ARTIFACT_HASH_REDIRECTS: Record<string, string> = {
   discovery: '#uncertainty',
   'competitor-analysis': '#competitors',
   'product-requirements': '#summary',
-  design: '#competitors',
+  design: '#design',
   architecture: '#architecture',
-  adrs: '#decisions',
+  adrs: '#architecture',
   'implementation-plan': '#implementation',
-  'testing-strategy': '#quality',
-  deployment: '#implementation',
+  'testing-strategy': '#implementation',
+  deployment: '#deployment',
   retrospective: '#retrospective',
 }
 

@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <div class="ax-card p-5">
-    <h3 class="text-sm font-semibold ax-heading">{{ layer.name }}</h3>
+    <h3 class="text-sm font-semibold ax-heading">{{ layer.label }}</h3>
     <p class="mt-2 text-sm ax-muted">{{ layer.responsibility }}</p>
     <dl class="mt-4 grid gap-4 text-sm sm:grid-cols-3">
       <div>
@@ -24,7 +24,7 @@ defineProps<{
       </div>
       <div>
         <dt class="ax-label">Trade-off</dt>
-        <dd class="mt-1 ax-muted">{{ layer.tradeoff }}</dd>
+        <dd class="mt-1 ax-muted">{{ layer.tradeoffs }}</dd>
       </div>
     </dl>
   </div>

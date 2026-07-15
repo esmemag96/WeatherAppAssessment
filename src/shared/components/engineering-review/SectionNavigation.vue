@@ -2,23 +2,58 @@
 import type { SectionNavItem } from '@/content/artifacts/types'
 
 import { scrollToSection } from '@/shared/composables'
+import { Icon } from '@/shared/ui'
 
 defineProps<{
   sections: SectionNavItem[]
   activeSection: string
   progress: number
-  variant?: 'vertical' | 'horizontal'
+  variant?: 'vertical' | 'horizontal' | 'sidebar'
 }>()
+
+const emit = defineEmits<{
+  navigate: []
+}>()
+
+function navigateTo(sectionId: string) {
+  scrollToSection(sectionId)
+  emit('navigate')
+}
 </script>
 
 <template>
-  <nav aria-label="Section navigation" :class="variant === 'horizontal' ? '' : 'space-y-4'">
-    <div class="er-progress-track" aria-hidden="true">
+  <nav
+    aria-label="Section navigation"
+    :class="variant === 'horizontal' ? 'min-w-0 w-full' : variant === 'sidebar' ? 'flex-1 space-y-2' : 'space-y-4'"
+  >
+    <div v-if="variant !== 'sidebar'" class="er-progress-track" aria-hidden="true">
       <div class="er-progress-fill" :style="{ width: `${progress}%` }" />
     </div>
 
-    <!-- Vertical (desktop) -->
-    <ul v-if="variant !== 'horizontal'" class="space-y-0.5">
+    <ul
+      v-if="variant === 'sidebar'"
+      class="space-y-1"
+    >
+      <li v-for="section in sections" :key="section.id">
+        <button
+          type="button"
+          class="er-sidebar-link ax-focus w-full"
+          :class="activeSection === section.id ? 'er-sidebar-link-active' : 'er-sidebar-link-inactive'"
+          :aria-current="activeSection === section.id ? 'true' : undefined"
+          @click="navigateTo(section.id)"
+        >
+          <Icon
+            :name="section.icon ?? 'circle'"
+            size="md"
+            :filled="activeSection === section.id"
+            aria-hidden="true"
+          />
+          <span class="font-body-lg text-body-lg">{{ section.label }}</span>
+        </button>
+      </li>
+    </ul>
+
+    <ul v-else-if="variant !== 'horizontal'" class="space-y-0.5">
       <li v-for="section in sections" :key="section.id">
         <button
           type="button"
@@ -32,8 +67,7 @@ defineProps<{
       </li>
     </ul>
 
-    <!-- Horizontal (mobile) -->
-    <ul v-else class="mt-2 flex gap-2 overflow-x-auto pb-1">
+    <ul v-else class="-mx-1 mt-2 flex max-w-full gap-2 overflow-x-auto px-1 pb-1">
       <li v-for="section in sections" :key="section.id" class="shrink-0">
         <button
           type="button"
