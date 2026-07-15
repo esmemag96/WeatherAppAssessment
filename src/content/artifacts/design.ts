@@ -3,6 +3,7 @@ export const designContent = {
   subtitle:
     'Once I knew what I wanted to build, I used Stitch to explore different layouts and generate the first mockups — not as final designs, but as a fast way to iterate until the direction felt clean, modern, and easy to understand.',
   tool: 'Stitch',
+  toolUrl: 'https://stitch.withgoogle.com',
   definedAreas: [
     'Visual hierarchy',
     'Layout',

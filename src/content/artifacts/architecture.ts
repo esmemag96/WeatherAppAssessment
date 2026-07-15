@@ -8,6 +8,8 @@ export const architectureContent = {
     'Isolate external services behind clear boundaries so replacing Open-Meteo — or adding a backend later — does not require rewriting the application.',
   principle:
     'I do not want the rest of the application to depend directly on whichever weather provider I choose.',
+  diagramTool: 'Eraser',
+  diagramToolUrl: 'https://www.eraser.io',
   eraserQuestions: [
     'What responsibilities should each part of the application have?',
     'How should information flow through the system?',

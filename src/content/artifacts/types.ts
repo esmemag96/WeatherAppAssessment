@@ -119,6 +119,13 @@ export interface AiToolCardData {
   purposes: string[]
   typicalOutput: string
   whyUsed: string
+  url?: string
+}
+
+export interface ToolLink {
+  name: string
+  url: string
+  role: string
 }
 
 export interface AiPrincipleData {

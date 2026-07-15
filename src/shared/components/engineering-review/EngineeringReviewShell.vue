@@ -255,6 +255,25 @@ onBeforeUnmount(() => {
             <p class="max-w-3xl text-sm leading-relaxed ax-muted">
               {{ aiCollaborationContent.philosophy.paragraphs[0] }}
             </p>
+
+            <div class="mt-8">
+              <h3 class="ax-label mb-3">Tools used across the workflow</h3>
+              <ul class="er-tool-links">
+                <li v-for="tool in aiCollaborationContent.tools" :key="tool.name">
+                  <a
+                    :href="tool.url"
+                    class="er-tool-link ax-focus"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span class="er-tool-link__name">{{ tool.name }}</span>
+                    <span class="er-tool-link__role">{{ tool.role }}</span>
+                    <span class="er-tool-link__arrow" aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
             <div class="mt-8">
               <AiWorkflowTimeline
                 :stages="aiCollaborationContent.workflow"
@@ -327,7 +346,16 @@ onBeforeUnmount(() => {
           </div>
 
           <div class="glass-card p-5">
-            <h3 class="ax-label">Questions Eraser helped answer</h3>
+            <h3 class="ax-label">
+              Questions
+              <a
+                :href="architectureContent.diagramToolUrl"
+                class="er-inline-tool-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >{{ architectureContent.diagramTool }}</a>
+              helped answer
+            </h3>
             <ul class="mt-3 space-y-1.5">
               <li
                 v-for="question in architectureContent.eraserQuestions"
@@ -349,7 +377,13 @@ onBeforeUnmount(() => {
 
           <div class="glass-card mb-2 p-5">
             <p class="text-sm ax-muted">
-              Tool: <span class="font-medium ax-heading">{{ designContent.tool }}</span>
+              Tool:
+              <a
+                :href="designContent.toolUrl"
+                class="er-inline-tool-link font-medium"
+                target="_blank"
+                rel="noopener noreferrer"
+              >{{ designContent.tool }}</a>
             </p>
             <h3 class="ax-label mt-4">What the mockups helped define</h3>
             <ul class="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -385,7 +419,13 @@ onBeforeUnmount(() => {
 
           <div class="glass-card rounded-2xl p-6 sm:p-8">
             <p class="mb-2 text-sm ax-muted">
-              Tool: <span class="font-medium ax-heading">{{ implementationContent.tool }}</span>
+              Tool:
+              <a
+                :href="implementationContent.toolUrl"
+                class="er-inline-tool-link font-medium"
+                target="_blank"
+                rel="noopener noreferrer"
+              >{{ implementationContent.tool }}</a>
             </p>
             <p class="mb-6 font-body-lg text-body-lg leading-relaxed ax-body">
               {{ implementationContent.approach }}
@@ -402,7 +442,15 @@ onBeforeUnmount(() => {
           </SectionHeader>
 
           <div class="ax-panel-emerald p-5">
-            <h3 class="ax-emerald-heading mb-2">Why {{ deploymentContent.platform }}?</h3>
+            <h3 class="ax-emerald-heading mb-2">
+              Why
+              <a
+                :href="deploymentContent.platformUrl"
+                class="er-inline-tool-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >{{ deploymentContent.platform }}</a>?
+            </h3>
             <p class="text-sm leading-relaxed ax-muted">{{ deploymentContent.whyVercel }}</p>
             <p class="mt-3 text-sm ax-body">{{ deploymentContent.decision }}</p>
           </div>

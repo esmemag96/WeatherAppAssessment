@@ -3,6 +3,7 @@ export const deploymentContent = {
   subtitle:
     'Reviewers should be able to open a link and use the app immediately — without cloning a repo or running anything locally.',
   platform: 'Vercel',
+  platformUrl: 'https://vercel.com',
   whyVercel:
     'I chose Vercel because it fits a Vue + Vite SPA extremely well: automatic GitHub deployments, preview URLs, HTTPS, and CDN delivery with no servers to manage.',
   decision: 'Deploy to Vercel with automatic GitHub deployments and preview URLs for every branch.',

@@ -5,6 +5,7 @@ export const implementationContent = {
   subtitle:
     'Once the architecture and design were defined, I started implementation with Cursor — dividing the project into smaller milestones so I could supervise every generated change and keep the architecture consistent.',
   tool: 'Cursor',
+  toolUrl: 'https://cursor.com',
   approach:
     'Rather than asking Cursor to build the entire application in one prompt, I divided the project into smaller milestones. That made it much easier to supervise the generated code and keep the architecture consistent.',
   items: [

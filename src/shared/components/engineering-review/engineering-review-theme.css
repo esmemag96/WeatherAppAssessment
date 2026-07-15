@@ -481,6 +481,89 @@
   font-variant-numeric: tabular-nums;
 }
 
+.artifacts-root .er-tool-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .artifacts-root .er-tool-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .artifacts-root .er-tool-links {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.artifacts-root .er-tool-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  position: relative;
+  border-radius: 0.75rem;
+  border: 1px solid var(--er-glass-border);
+  background: color-mix(in srgb, var(--er-on-surface) 4%, transparent);
+  padding: 0.875rem 2rem 0.875rem 1rem;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.artifacts-root .er-tool-link:hover {
+  border-color: color-mix(in srgb, var(--er-primary) 45%, transparent);
+  background: color-mix(in srgb, var(--er-primary) 10%, transparent);
+}
+
+.artifacts-root .er-tool-link__name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--er-on-surface);
+}
+
+.artifacts-root .er-tool-link:hover .er-tool-link__name {
+  color: var(--er-primary);
+}
+
+.artifacts-root .er-tool-link__role {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--er-on-surface-variant);
+}
+
+.artifacts-root .er-tool-link__arrow {
+  position: absolute;
+  top: 0.875rem;
+  right: 0.875rem;
+  font-size: 0.75rem;
+  opacity: 0.45;
+  color: var(--er-on-surface-variant);
+}
+
+.artifacts-root .er-tool-link:hover .er-tool-link__arrow {
+  opacity: 1;
+  color: var(--er-primary);
+}
+
+.artifacts-root .er-inline-tool-link {
+  color: var(--er-primary);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--er-primary) 40%, transparent);
+  text-underline-offset: 0.15em;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.artifacts-root .er-inline-tool-link:hover {
+  text-decoration-color: var(--er-primary);
+}
+
 .artifacts-root .er-trait-card {
   display: flex;
   flex-direction: column;

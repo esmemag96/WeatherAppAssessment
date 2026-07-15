@@ -1,4 +1,4 @@
-import type { AiPrincipleData, AiWorkflowStageData } from './types'
+import type { AiPrincipleData, AiWorkflowStageData, ToolLink } from './types'
 
 export const aiCollaborationContent = {
   title: 'Using AI During the Project',
@@ -13,6 +13,43 @@ export const aiCollaborationContent = {
       'I see AI as a way to accelerate engineering work, not replace engineering judgment.',
     ],
   },
+  tools: [
+    {
+      name: 'ChatGPT',
+      url: 'https://chatgpt.com',
+      role: 'Custom GPT for assumptions, alternatives, and prompt prep',
+    },
+    {
+      name: 'Eraser',
+      url: 'https://www.eraser.io',
+      role: 'Architecture diagrams and system boundaries',
+    },
+    {
+      name: 'Stitch',
+      url: 'https://stitch.withgoogle.com',
+      role: 'UI exploration and high-fidelity mockups',
+    },
+    {
+      name: 'Cursor',
+      url: 'https://cursor.com',
+      role: 'Milestone-sized agentic implementation',
+    },
+    {
+      name: 'Vercel',
+      url: 'https://vercel.com',
+      role: 'Hosting, previews, and production deploy',
+    },
+    {
+      name: 'GitHub',
+      url: 'https://github.com',
+      role: 'Source control and deployment triggers',
+    },
+    {
+      name: 'Open-Meteo',
+      url: 'https://open-meteo.com',
+      role: 'Weather, geocoding, and air-quality APIs',
+    },
+  ] satisfies ToolLink[],
   uses: [
     'Challenge assumptions',
     'Explore different approaches',
