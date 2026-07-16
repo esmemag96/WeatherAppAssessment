@@ -1,8 +1,33 @@
-# Weather Forecast App
+# Esmeralda Weather App
 
-A mobile-first, dark-themed weather forecast app built with Vue 3, TypeScript, and Vite, for a senior-level take-home assessment.
+A mobile-first weather forecast web app built for the **Coherent Solutions** senior frontend take-home assessment.
 
-> **Status:** Project foundation only. Routing, layout, and folder structure are in place; weather/search/favorites features are not implemented yet.
+The product answers a deliberately open requirement — *get a weather forecast for a selected location* — as an independent SPA: search a city, check the forecast, optionally save favorites, with preferences stored client-side in LocalStorage. No accounts, no backend, no cloud database.
+
+The companion **Engineering Review** at `/artifacts` tells the story of how that requirement became a complete application: scope, audience, research, architecture, design, AI collaboration, delivery, deployment, feedback, and reflection.
+
+| Surface | Path |
+| ------- | ---- |
+| Landing | `/` |
+| Weather app | `/app` |
+| Engineering Review | `/artifacts` |
+
+## Product scope
+
+**In scope**
+
+- Current conditions, hourly and daily forecast
+- Location search and geolocation
+- Favorites and recent searches (LocalStorage)
+- Light / dark appearance
+- Loading, empty, offline, and error states
+
+**Out of scope**
+
+- User accounts, authentication, or session management
+- Cloud databases or sync
+- Radar maps, weather news, ads, or advanced meteorological metrics
+- City-image APIs (hero imagery is condition-based and local)
 
 ## Tech stack
 
@@ -10,13 +35,16 @@ A mobile-first, dark-themed weather forecast app built with Vue 3, TypeScript, a
 - **TypeScript**
 - **Vite 7**
 - **Vue Router 5** (lazy-loaded routes)
-- **Pinia 3** (state management, wired up but no stores yet)
-- **Tailwind CSS 4** (CSS-first config, dark theme by default)
-- **Vitest 4** + **@vue/test-utils** (unit/component testing)
+- **Pinia 3**
+- **Tailwind CSS 4**
+- **Vitest 4** + **@vue/test-utils** (unit/component)
+- **Playwright** (end-to-end smoke)
+- **Open-Meteo** — forecast, geocoding, and air quality (called from the browser)
+- **Vercel** — static hosting, preview URLs, HTTPS, CDN
 
 ## Getting started
 
-Requires Node.js 20.19+ (or 22.12+). Then:
+Requires Node.js **20.19+** (or **22.12+**). `.nvmrc` pins Node 22 for Vercel.
 
 ```bash
 npm install
@@ -25,101 +53,130 @@ npm run dev
 
 Open the printed local URL (typically `http://localhost:5173`).
 
-### Other scripts
+| Script | Purpose |
+| ------ | ------- |
+| `npm run build` | Type-check + production build |
+| `npm run preview` | Preview the production build |
+| `npm run typecheck` | Project-wide `vue-tsc` check |
+| `npm run test` | Run the unit test suite once |
+| `npm run test:watch` | Unit tests in watch mode |
+| `npm run test:ui` | Vitest UI |
+| `npm run test:e2e:install` | Download Chromium for Playwright (run once) |
+| `npm run test:e2e` | Playwright smoke (requires a prior `npm run build`) |
+| `npm run test:e2e:ui` | Playwright UI mode |
+| `npm run test:e2e:report` | Open the last Playwright HTML report |
+
+### End-to-end tests (Playwright)
+
+Smoke tests live in `e2e/` and run against the production build via `vite preview` (desktop + mobile Chromium).
+
+First time on a machine, install the browser binaries:
 
 ```bash
-npm run build       # type-check + production build
-npm run preview     # preview the production build locally
-npm run typecheck   # vue-tsc project-wide type check
-npm run test         # run the test suite once
-npm run test:watch   # run tests in watch mode
-npm run test:ui      # run tests with the Vitest UI
+npm run test:e2e:install
 ```
 
-## Deploy to Vercel
-
-This is a static Vue SPA (no backend, no environment variables required). Vercel settings are defined in `vercel.json`.
-
-### Option A — Vercel Dashboard
-
-1. Push the repository to GitHub.
-2. In [vercel.com/new](https://vercel.com/new), import the repository.
-3. Vercel auto-detects Vite. Confirm:
-   - **Build Command:** `npm run build`
-   - **Output Directory:** `dist`
-   - **Install Command:** `npm install`
-4. Deploy. No environment variables are needed — Open-Meteo is called directly from the browser.
-
-### Option B — Vercel CLI
+Then build and run:
 
 ```bash
-npm i -g vercel
-vercel          # first deploy (follow prompts)
-vercel --prod   # production deploy
+npm run build
+npm run test:e2e
 ```
 
-### SPA routing
+Interactive UI mode (after a build):
 
-Client-side routes (`/app`, `/artifacts`, `/app/search`, etc.) are handled by the rewrite rule in `vercel.json`, which serves `index.html` for paths without a file extension.
+```bash
+npm run test:e2e:ui
+```
 
-Requires Node.js **20.19+** (or **22.12+**). `.nvmrc` pins Node 22 for Vercel.
+If tests fail with `Executable doesn't exist` / `browserType.launch`, Chromium is missing — run `npm run test:e2e:install` again.
+
+CI runs typecheck, unit tests, and Playwright smoke on every push/PR (see `.github/workflows/ci.yml`). Playwright browsers are installed in the workflow with `npx playwright install --with-deps chromium`.
 
 ## Architecture
 
-The codebase follows a layered, feature-oriented structure so UI never talks to external services directly:
+Frontend SPA organized into four layers so the UI never depends directly on a weather provider:
+
+| Layer | Responsibility |
+| ----- | -------------- |
+| **Presentation** | Pages, components, layout |
+| **Application** | Stores, composables, user actions |
+| **Domain** | Types and mapping into clean entities |
+| **Infrastructure** | Open-Meteo adapters, LocalStorage, alerts |
 
 ```
 src/
-  app/            # App wiring: router, layouts, provider installation
-    router/        # Route definitions (lazy-loaded page components)
-    layouts/        # AppShell (header + bottom nav + <RouterView>)
-    providers/       # installAppProviders(app) - wires Pinia + router
-  pages/          # One folder per route. Thin - compose features/shared UI.
-    Home/
-    Search/
-    Favorites/
-    Settings/
-    EngineeringJourney/
-  features/       # Vertical slices of app behavior (state + UI + logic)
-    search/          # (placeholder - see README in folder)
-    forecast/
-    favorites/
-    recent-searches/
-    settings/
-    geolocation/
-  entities/       # Pure domain types, no behavior
-    weather/         # WeatherSnapshot, DailyForecast, etc.
-    location/        # GeoLocation
-  infrastructure/ # Adapters/repositories - the ONLY layer allowed to
-                  # talk to browser APIs or external services
-    weather/         # WeatherRepository interface + placeholder impl
-    storage/         # StorageAdapter interface + LocalStorageAdapter
-    images/          # Maps domain data (condition codes) to icons
-  shared/         # Reusable, feature-agnostic building blocks
-    ui/              # Low-level primitives (BaseButton, BaseCard)
-    components/      # Composed, still generic (PageHeader, EmptyState)
-    composables/     # useDarkMode, etc.
-    utils/           # cn() class helper, etc.
-    constants/       # ROUTE_NAMES / ROUTE_PATHS
-    types/           # Generic helper types (Nullable, AsyncState, ...)
+  app/             # Router, AppShell, providers
+  pages/           # Landing, Home, Search, Favorites, Settings, Artifacts
+  features/        # forecast, search, favorites, settings, geolocation, recent-searches
+  entities/        # Domain types (weather, location, settings, …)
+  infrastructure/  # Open-Meteo, air quality, storage, alerts, images
+  content/         # Engineering Review narrative content
+  shared/          # UI primitives, composables, design system, engineering-review UI
 ```
 
-### Rules this structure enforces
+**Rules**
 
-- **UI never calls APIs directly.** Pages and components only import from `shared/*`, `entities/*`, and `features/*`. Any real network/browser API call is hidden behind an interface in `infrastructure/*` (e.g. `WeatherRepository`, `StorageAdapter`).
-- **Features depend on infrastructure through interfaces**, not concrete clients - so swapping the weather provider or storage mechanism later won't touch feature code.
-- **`entities/*` are dumb data shapes** - no fetching, no persistence, just TypeScript types describing the domain.
-- **Pages stay thin.** They compose `shared/components` and (eventually) `features/*` - they shouldn't contain business logic.
-- Each `features/*` folder currently has a `README.md` describing what it will own; implementation lands in a later step.
+- UI never calls external APIs directly — only through application state and repositories.
+- Features depend on infrastructure through interfaces, so Open-Meteo (or a future backend) can be swapped without rewriting the app.
+- `entities/*` are pure data shapes.
+- Pages stay thin; they compose features and shared UI.
 
-## Current routes
+The architecture diagram and layer explorer live in the Engineering Review under **Technical Direction**.
 
-| Path         | Page                  |
-| ------------ | --------------------- |
-| `/`          | Home                  |
-| `/search`    | Search                |
-| `/favorites` | Favorites             |
-| `/settings`  | Settings              |
-| `/journey`   | Engineering Journey   |
+## Routes
 
-All pages are placeholders (`PageHeader` + `EmptyState`) until their respective features are implemented.
+| Path | Page |
+| ---- | ---- |
+| `/` | Landing |
+| `/app` | Weather dashboard (home) |
+| `/app/search` | Location search |
+| `/app/favorites` | Saved locations |
+| `/app/settings` | Preferences |
+| `/artifacts` | Engineering Review |
+| `/journey` | Redirect → `/artifacts` |
+
+Legacy paths `/search`, `/favorites`, and `/settings` redirect into `/app/...`. Artifact deep links like `/artifacts/architecture` redirect to the matching hash on `/artifacts`.
+
+## Engineering Review
+
+The review is a case-study portal (not a document dump). Sections include:
+
+1. **Starting Point** — scope and assumptions  
+2. **Audience** — persona (Sofia) and product framing  
+3. **Research** — competitor keep / leave-out  
+4. **AI Collaboration** — workflow and tool links (ChatGPT, Cursor, Stitch, Eraser, Vercel, …)  
+5. **Architecture** — goal, Eraser diagram, four layers  
+6. **Design** — Stitch mockups and condition-based imagery  
+7. **Delivery** — milestone-based implementation with Cursor  
+8. **Deployment** — Vercel pipeline  
+9. **Feedback** — validation questions  
+10. **Reflection** — what went well, what to improve, what next  
+
+Narrative content lives in `src/content/artifacts/`. UI lives in `src/shared/components/engineering-review/`.
+
+## Deploy to Vercel
+
+Static Vue SPA — no server, no environment variables. Settings are in `vercel.json`.
+
+### Option A — Dashboard
+
+1. Push the repository to GitHub.
+2. Import it at [vercel.com/new](https://vercel.com/new).
+3. Confirm: **Build** `npm run build`, **Output** `dist`, **Install** `npm install`.
+4. Deploy. Open-Meteo is called from the browser.
+
+### Option B — CLI
+
+```bash
+npm i -g vercel
+vercel          # first deploy
+vercel --prod   # production
+```
+
+SPA routes are rewritten to `index.html` via `vercel.json` so `/app`, `/artifacts`, and nested paths work on refresh.
+
+## Author
+
+**Esmeralda Magdaleno** — Frontend Engineer  
+Coherent Solutions take-away task
