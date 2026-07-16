@@ -6,11 +6,13 @@ The product answers a deliberately open requirement — *get a weather forecast 
 
 The companion **Engineering Review** at `/artifacts` tells the story of how that requirement became a complete application: scope, audience, research, architecture, design, AI collaboration, delivery, deployment, feedback, and reflection.
 
-| Surface | Path |
-| ------- | ---- |
-| Landing | `/` |
-| Weather app | `/app` |
-| Engineering Review | `/artifacts` |
+**Live demo:** [https://weather-app-assessment-sepia.vercel.app](https://weather-app-assessment-sepia.vercel.app)
+
+| Surface | Path | Live URL |
+| ------- | ---- | -------- |
+| Landing | `/` | [weather-app-assessment-sepia.vercel.app](https://weather-app-assessment-sepia.vercel.app) |
+| Weather app | `/app` | [/app](https://weather-app-assessment-sepia.vercel.app/app) |
+| Engineering Review (Artifacts) | `/artifacts` | [/artifacts](https://weather-app-assessment-sepia.vercel.app/artifacts) |
 
 ## Product scope
 
@@ -126,15 +128,15 @@ The architecture diagram and layer explorer live in the Engineering Review under
 
 ## Routes
 
-| Path | Page |
-| ---- | ---- |
-| `/` | Landing |
-| `/app` | Weather dashboard (home) |
-| `/app/search` | Location search |
-| `/app/favorites` | Saved locations |
-| `/app/settings` | Preferences |
-| `/artifacts` | Engineering Review |
-| `/journey` | Redirect → `/artifacts` |
+| Path | Page | Live URL |
+| ---- | ---- | -------- |
+| `/` | Landing | [open](https://weather-app-assessment-sepia.vercel.app/) |
+| `/app` | Weather dashboard (home) | [open](https://weather-app-assessment-sepia.vercel.app/app) |
+| `/app/search` | Location search | [open](https://weather-app-assessment-sepia.vercel.app/app/search) |
+| `/app/favorites` | Saved locations | [open](https://weather-app-assessment-sepia.vercel.app/app/favorites) |
+| `/app/settings` | Preferences | [open](https://weather-app-assessment-sepia.vercel.app/app/settings) |
+| `/artifacts` | Engineering Review | [open](https://weather-app-assessment-sepia.vercel.app/artifacts) |
+| `/journey` | Redirect → `/artifacts` | — |
 
 Legacy paths `/search`, `/favorites`, and `/settings` redirect into `/app/...`. Artifact deep links like `/artifacts/architecture` redirect to the matching hash on `/artifacts`.
 
@@ -156,6 +158,9 @@ The review is a case-study portal (not a document dump). Sections include:
 Narrative content lives in `src/content/artifacts/`. UI lives in `src/shared/components/engineering-review/`.
 
 ## Deploy to Vercel
+
+**Production:** [https://weather-app-assessment-sepia.vercel.app](https://weather-app-assessment-sepia.vercel.app)  
+App: [/app](https://weather-app-assessment-sepia.vercel.app/app) · Engineering Review: [/artifacts](https://weather-app-assessment-sepia.vercel.app/artifacts)
 
 Static Vue SPA — no server, no environment variables. Settings are in `vercel.json`.
 
