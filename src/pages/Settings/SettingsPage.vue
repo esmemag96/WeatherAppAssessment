@@ -14,7 +14,14 @@ import { Card, Chip, Divider, Icon } from '@/shared/ui'
 
 import { useSettingsPage } from './useSettingsPage'
 
-const { temperatureUnit, theme, setTemperatureUnit, setTheme } = useSettingsPage()
+const {
+  temperatureUnit,
+  windSpeedUnit,
+  theme,
+  setTemperatureUnit,
+  setWindSpeedUnit,
+  setTheme,
+} = useSettingsPage()
 </script>
 
 <template>
@@ -45,6 +52,16 @@ const { temperatureUnit, theme, setTemperatureUnit, setTheme } = useSettingsPage
         <div class="flex gap-1 rounded-lg bg-surface-container-highest p-1">
           <Chip :selected="temperatureUnit === 'celsius'" @click="setTemperatureUnit('celsius')">°C</Chip>
           <Chip :selected="temperatureUnit === 'fahrenheit'" @click="setTemperatureUnit('fahrenheit')">°F</Chip>
+        </div>
+      </Card>
+      <Card rounded="xl" padding="md" class="flex items-center justify-between">
+        <span class="flex items-center gap-3 font-body-lg text-body-lg text-on-surface">
+          <Icon name="air" class="text-on-surface-variant" />
+          Wind speed
+        </span>
+        <div class="flex gap-1 rounded-lg bg-surface-container-highest p-1">
+          <Chip :selected="windSpeedUnit === 'kph'" @click="setWindSpeedUnit('kph')">km/h</Chip>
+          <Chip :selected="windSpeedUnit === 'mph'" @click="setWindSpeedUnit('mph')">mph</Chip>
         </div>
       </Card>
     </div>

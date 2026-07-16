@@ -39,7 +39,6 @@ there is no naming/translation layer to keep in sync.
 ```
 shared/ui/            (primitives - one visual/interaction concern, no composition)
 ├─ Icon                Material Symbol wrapper
-├─ Avatar               ← Icon (fallback)
 ├─ Button
 ├─ IconButton
 ├─ Badge
@@ -64,7 +63,6 @@ shared/components/     (composed blocks - assembled from ui/ primitives)
 ├─ EmptyState            ← Icon
 ├─ ErrorState            ← Badge, Button, Icon
 ├─ OfflineBanner         ← Icon
-├─ Toast                 ← Icon
 └─ Modal                 ← IconButton, Icon
 
 app/layouts/
@@ -89,9 +87,9 @@ beyond what it's handed.
   class, `Card` builds the same effect from ordinary Tailwind utilities
   (`bg-surface-container-low/80 backdrop-blur-md border border-white/8
   border-t-white/15 shadow-glass`) so every "elevated surface" component
-  (`SearchSuggestion`, `ForecastHourlyCard`, `WeatherMetricCard`, `Modal`,
-  `Toast`) composes `Card` (or the same class list) instead of duplicating
-  it. Change the glass recipe once, everything updates.
+  (`SearchSuggestion`, `ForecastHourlyCard`, `WeatherMetricCard`, `Modal`)
+  composes `Card` (or the same class list) instead of duplicating it.
+  Change the glass recipe once, everything updates.
 - **Metric visualization is a slot, not a prop.** `WeatherMetricCard` shows
   a UV progress bar, a humidity bar chart, and a wind compass in the
   mockups - three unrelated visualizations. Rather than teaching the card
@@ -107,12 +105,11 @@ beyond what it's handed.
   and live geocoding results, because the mockups render them with the
   exact same visual treatment.
 - **Controlled, stateless components throughout.** `FavoriteButton`,
-  `Chip`, `Toast`, `Modal`, `OfflineBanner` all take their state as props
-  and emit intent (`update:modelValue`, `toggle`, `retry`, `close`,
-  `dismiss`) rather than owning it. This is what makes "do not implement
-  business logic" possible: a later feature step wires these to
-  `useFavoritesStore`, `useSettingsStore`, etc. without touching the
-  design system.
+  `Chip`, `Modal`, `OfflineBanner` all take their state as props and emit
+  intent (`update:modelValue`, `toggle`, `retry`, `close`) rather than
+  owning it. This is what makes "do not implement business logic"
+  possible: features wire these to `useFavoritesStore`,
+  `useSettingsStore`, etc. without touching the design system.
 - **`Icon` centralizes the icon system.** Every icon in the mockups comes
   from Material Symbols Outlined with the same two axes in play (`FILL`
   for active/emphasis states, weight for thin decorative icons on the
@@ -159,9 +156,8 @@ beyond what it's handed.
    layered on top of static demo HTML, not structural to the design
    system's components or tokens. Implementing them now would mean adding
    animation *behavior* (timers, RAF loops) to otherwise-presentational
-   components before there's real data to animate. `Toast`'s auto-dismiss
-   timer and `LoadingSkeleton`'s shimmer were kept because they're
-   intrinsic to what those two components *are*.
+   components before there's real data to animate. `LoadingSkeleton`'s
+   shimmer was kept because it's intrinsic to what that component *is*.
 7. **Desktop dashboard is documented, not built.** `desktop_dashboard_hi_fi`
    informed the `container-app-wide` token and confirms every primitive
    (`Card`, `WeatherMetricCard`, `ForecastDailyRow`) already scales to that
@@ -180,7 +176,6 @@ component file.
 | Component | Purpose |
 |---|---|
 | `Icon` | Material Symbols Outlined wrapper (name, size, filled, weight). |
-| `Avatar` | Circular profile/location image with initials/icon fallback. |
 | `Button` | Primary/secondary/ghost/danger action button, with loading state. |
 | `IconButton` | Circular icon-only tap target with required a11y label. |
 | `Card` | Base glass/solid/outline surface - the elevation primitive. |
@@ -208,5 +203,4 @@ component file.
 | `EmptyState` | Neutral "nothing here yet" placeholder. |
 | `ErrorState` | Full-page failure state with retry/secondary actions. |
 | `OfflineBanner` | Slim persistent connectivity banner. |
-| `Toast` | Bottom-anchored transient notification, optional auto-dismiss. |
 | `Modal` | Overlay dialog with backdrop, Escape-to-close, footer slot. |

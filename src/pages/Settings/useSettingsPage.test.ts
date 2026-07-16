@@ -33,6 +33,17 @@ describe('useSettingsPage', () => {
     expect(temperatureUnit.value).toBe('fahrenheit')
   })
 
+  it('exposes and updates the wind speed unit from the settings store', () => {
+    const { windSpeedUnit, setWindSpeedUnit } = useSettingsPage()
+
+    expect(windSpeedUnit.value).toBe('kph')
+
+    setWindSpeedUnit('mph')
+
+    expect(windSpeedUnit.value).toBe('mph')
+    expect(useSettingsStore().preferences.windSpeedUnit).toBe('mph')
+  })
+
   it('exposes the current theme from the settings store', () => {
     const { theme } = useSettingsPage()
 

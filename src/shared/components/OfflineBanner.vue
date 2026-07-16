@@ -10,7 +10,7 @@
 
   Props:
     - visible (boolean, required).
-    - message (string, default "You're offline. Showing last saved data.").
+    - message (string, default "You're offline. Data already loaded this session may still be available.").
     - icon (string, default 'cloud_off').
     - retryLabel (string, optional): renders an inline retry action.
 
@@ -30,8 +30,10 @@ interface Props {
   retryLabel?: string
 }
 
-const { message = "You're offline. Showing last saved data.", icon = 'cloud_off' } =
-  defineProps<Props>()
+const {
+  message = "You're offline. Data already loaded this session may still be available.",
+  icon = 'cloud_off',
+} = defineProps<Props>()
 
 defineEmits<{ retry: [] }>()
 </script>

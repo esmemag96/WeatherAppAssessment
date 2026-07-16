@@ -4,7 +4,7 @@
   Purpose:
     Apple Weather-style row of page dots for the swipe-between-locations
     carousel on the Weather dashboard. Fixed near the bottom of the
-    screen (mirrors `Toast`'s `fixed bottom-24` positioning above
+    screen (fixed above the bottom navigation, similar to `OfflineBanner`)
     `BottomNavigation`) so it stays visible regardless of scroll
     position, and only rendered by the caller when there's more than
     one location to swipe between.

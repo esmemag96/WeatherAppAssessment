@@ -2,7 +2,8 @@
 
 `useSettingsStore` — `UserPreferences` (from `src/entities/settings`), persisted through `StorageRepository` (`src/infrastructure/storage`).
 
-- `preferences`, `units` (temperature unit, celsius/fahrenheit)
-- `setUnits(unit)`
+- `preferences` — temperature unit, wind speed unit, theme
+- `units` — temperature unit convenience computed (`celsius` / `fahrenheit`)
+- `setUnits(unit)` / `setWindSpeedUnit(unit)` / `setTheme(theme)`
 
-Theme toggle UI (wired to `shared/composables/useDarkMode`) is not built yet - only the store exists so far.
+Theme is applied to `document.documentElement` via `applyTheme` / `useTheme`.

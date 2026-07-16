@@ -1,7 +1,13 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 
-import { DEFAULT_USER_PREFERENCES, type TemperatureUnit, type ThemePreference, type UserPreferences } from '@/entities/settings'
+import {
+  DEFAULT_USER_PREFERENCES,
+  type TemperatureUnit,
+  type ThemePreference,
+  type UserPreferences,
+  type WindSpeedUnit,
+} from '@/entities/settings'
 import { LocalStorageRepository, type StorageRepository } from '@/infrastructure/storage'
 import { applyTheme, SETTINGS_STORAGE_KEY } from '@/shared/utils/theme'
 
@@ -35,13 +41,18 @@ export function createSettingsStore(deps: SettingsStoreDeps = {}) {
       persist()
     }
 
+    function setWindSpeedUnit(nextUnit: WindSpeedUnit): void {
+      preferences.value = { ...preferences.value, windSpeedUnit: nextUnit }
+      persist()
+    }
+
     function setTheme(theme: ThemePreference): void {
       preferences.value = { ...preferences.value, theme }
       persist()
       applyTheme(theme)
     }
 
-    return { preferences, units, setUnits, setTheme }
+    return { preferences, units, setUnits, setWindSpeedUnit, setTheme }
   })
 }
 

@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import type { TemperatureUnit, ThemePreference } from '@/entities/settings'
+import type { TemperatureUnit, ThemePreference, WindSpeedUnit } from '@/entities/settings'
 import { useSettingsStore } from '@/features/settings'
 
 /**
@@ -11,10 +11,15 @@ export function useSettingsPage() {
   const settingsStore = useSettingsStore()
 
   const temperatureUnit = computed(() => settingsStore.units)
+  const windSpeedUnit = computed(() => settingsStore.preferences.windSpeedUnit)
   const theme = computed(() => settingsStore.preferences.theme)
 
   function setTemperatureUnit(unit: TemperatureUnit): void {
     settingsStore.setUnits(unit)
+  }
+
+  function setWindSpeedUnit(unit: WindSpeedUnit): void {
+    settingsStore.setWindSpeedUnit(unit)
   }
 
   function setTheme(nextTheme: ThemePreference): void {
@@ -23,8 +28,10 @@ export function useSettingsPage() {
 
   return {
     temperatureUnit,
+    windSpeedUnit,
     theme,
     setTemperatureUnit,
+    setWindSpeedUnit,
     setTheme,
   }
 }

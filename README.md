@@ -20,7 +20,7 @@ The companion **Engineering Review** at `/artifacts` tells the story of how that
 - Location search and geolocation
 - Favorites and recent searches (LocalStorage)
 - Light / dark appearance
-- Loading, empty, offline, and error states
+- Loading, empty, and error states, plus an offline banner (in-memory session cache only — not persisted across reloads)
 
 **Out of scope**
 

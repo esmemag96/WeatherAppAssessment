@@ -24,7 +24,8 @@ export const architectureContent = {
       responsibility: 'Everything the user interacts with — pages, components, and layout.',
       keyFiles: ['HomePage.vue', 'WeatherHeroCard.vue', 'SearchBar.vue', 'BottomNavigation.vue'],
       dependencies: ['Application layer (stores and composables)'],
-      tradeoffs: 'UI never calls external APIs directly — every action goes through application state.',
+      tradeoffs:
+        'Pages stay thin and never call fetch — orchestration goes through stores and page composables.',
     },
     {
       id: 'application',
@@ -38,15 +39,20 @@ export const architectureContent = {
       id: 'domain',
       label: 'Domain',
       responsibility: 'Represents the application\'s core concepts — locations, forecasts, settings, and alerts.',
-      keyFiles: ['weather.types.ts', 'WeatherMapper.ts', 'WeatherAlertResolver.ts'],
+      keyFiles: ['weather.types.ts', 'location.types.ts', 'settings.types.ts', 'weather-alert.types.ts'],
       dependencies: [],
-      tradeoffs: 'Pure types and mappers are easy to test, but require a translation step from API shapes.',
+      tradeoffs: 'Pure types are easy to test, but require a translation step from API shapes.',
     },
     {
       id: 'infrastructure',
       label: 'Infrastructure',
-      responsibility: 'Communicates with external services and browser storage.',
-      keyFiles: ['OpenMeteoWeatherRepository.ts', 'LocalStorageRepository.ts'],
+      responsibility: 'Communicates with external services and browser storage, and maps provider DTOs into domain types.',
+      keyFiles: [
+        'OpenMeteoWeatherAdapter.ts',
+        'WeatherMapper.ts',
+        'WeatherAlertResolver.ts',
+        'LocalStorageRepository.ts',
+      ],
       dependencies: ['External APIs (Open-Meteo)', 'Browser LocalStorage'],
       tradeoffs: 'An interface with a single implementation today — the cost of a seam that keeps the app swappable.',
     },
@@ -59,9 +65,9 @@ export const architectureContent = {
     explanation:
       'The application is organized into four main responsibilities. If I ever replace Open-Meteo — or even introduce a backend later — most of the application should remain unchanged.',
     highlights: [
-      'Presentation reads application state — never external APIs directly',
+      'Pages compose stores and shared UI — network calls stay in infrastructure adapters',
       'Domain types define what the app expects, independent of any provider',
-      'Infrastructure adapters translate Open-Meteo responses into clean domain entities',
+      'Infrastructure adapters and mappers translate Open-Meteo responses into domain entities',
       'Favorites and settings persist in browser storage — no backend required',
     ],
   },

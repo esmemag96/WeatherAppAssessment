@@ -13,7 +13,7 @@ import { ROUTE_PATHS } from '@/shared/constants'
       <p class="mt-3 text-base text-zinc-400">Senior Frontend Engineering Assessment</p>
 
       <p class="mt-8 text-sm leading-relaxed text-zinc-500">
-        The application demonstrates the implementation. The engineering review summarizes the decisions, architecture, and quality strategy behind it.
+        The application demonstrates the implementation. The engineering review summarizes the decisions, architecture, and delivery process behind it.
       </p>
 
       <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:justify-center">

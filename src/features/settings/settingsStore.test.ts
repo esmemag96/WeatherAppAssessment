@@ -79,6 +79,16 @@ describe('useSettingsStore', () => {
     expect(store.units).toBe('celsius')
   })
 
+  it('setWindSpeedUnit updates and persists the wind preference', () => {
+    const useStore = createSettingsStore({ storageRepository })
+    const store = useStore()
+
+    store.setWindSpeedUnit('mph')
+
+    expect(store.preferences.windSpeedUnit).toBe('mph')
+    expect(storageRepository.get<UserPreferences>(SETTINGS_STORAGE_KEY)?.windSpeedUnit).toBe('mph')
+  })
+
   it('setTheme updates the theme preference and applies it to the document', () => {
     const useStore = createSettingsStore({ storageRepository })
     const store = useStore()
