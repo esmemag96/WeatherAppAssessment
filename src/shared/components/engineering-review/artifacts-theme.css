@@ -264,35 +264,6 @@ html.engineering-review-page.artifacts-dark body {
   color: var(--er-on-surface-variant);
 }
 
-.artifacts-root .ax-proposal-why,
-.artifacts-root .ax-proposal-decision,
-.artifacts-root .ax-proposal-benefits {
-  border-radius: 1rem;
-  border: 1px solid var(--er-glass-border);
-  background: var(--er-glass-bg);
-}
-
-.artifacts-root .ax-proposal-icon-why {
-  background: color-mix(in srgb, var(--er-primary) 18%, transparent);
-  color: var(--er-primary);
-}
-
-.artifacts-root .ax-proposal-icon-decision {
-  background: color-mix(in srgb, var(--er-tertiary) 18%, transparent);
-  color: var(--er-tertiary);
-}
-
-.artifacts-root .ax-proposal-icon-benefits {
-  background: color-mix(in srgb, var(--er-secondary) 18%, transparent);
-  color: var(--er-secondary);
-}
-
-.artifacts-root .ax-technical-shell {
-  border-radius: 1rem;
-  border: 1px solid var(--er-glass-border);
-  background: color-mix(in srgb, var(--er-surface-container-low) 70%, transparent);
-}
-
 .artifacts-root .ax-btn-primary {
   border: none;
   border-radius: 0.75rem;

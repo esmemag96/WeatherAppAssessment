@@ -316,20 +316,6 @@
   transition: width 0.3s ease-out;
 }
 
-.artifacts-root .er-roadmap-bar {
-  height: 0.5rem;
-  overflow: hidden;
-  border-radius: 9999px;
-  background: var(--er-surface-container-high);
-}
-
-.artifacts-root .er-roadmap-fill {
-  height: 100%;
-  border-radius: 9999px;
-  background: var(--er-primary);
-  transition: width 0.5s;
-}
-
 .artifacts-root .er-flow-node {
   border-radius: 0.5rem;
   border: 1px solid var(--er-glass-border);

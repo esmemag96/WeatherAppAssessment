@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 /**
  * Wraps the browser's connectivity events behind a small reactive
  * composable so components never touch `navigator.onLine` /
- * `window.addEventListener` directly - mirrors `useDarkMode`. Feeds
+ * `window.addEventListener` directly - mirrors `useTheme`. Feeds
  * `OfflineBanner`'s `visible` prop; detecting connectivity is this
  * composable's job, deciding what "offline" should look like is the
  * design system component's.

@@ -1,4 +1,4 @@
-export { useDarkMode, useTheme } from './useDarkMode'
+export { useTheme } from './useTheme'
 export { useArtifactsTheme } from './useArtifactsTheme'
 export * from './useOnlineStatus'
 export { useReducedMotion } from './useReducedMotion'

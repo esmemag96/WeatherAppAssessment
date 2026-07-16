@@ -1,4 +1,4 @@
-import type { HeroStat, SectionNavItem } from './types'
+import type { SectionNavItem } from './types'
 import { ROUTE_PATHS } from '@/shared/constants'
 
 /** Primary sidebar navigation — matches the Stitch Engineering Portal layout. */
@@ -47,12 +47,6 @@ export const reviewContent = {
     badge: 'Technical Journey',
     description:
       'A deep dive into the architecture, philosophy, and iterative refinement behind the Weather App by Esmeralda.',
-    stats: [
-      { label: 'Requirement', value: '1 intentionally open-ended request' },
-      { label: 'Scope', value: 'Independent web app, no accounts' },
-      { label: 'Architecture', value: '4-layer frontend SPA' },
-      { label: 'Delivery', value: 'Production-ready Vue application' },
-    ] satisfies HeroStat[],
     links: {
       app: ROUTE_PATHS.home,
       github: 'https://github.com/esmemag96/WeatherAppAssessment',

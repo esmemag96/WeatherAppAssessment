@@ -1,5 +1,4 @@
 export * from './types'
-export { sectionProposals } from './proposals'
 export { REVIEW_SECTIONS, STITCH_NAV_SECTIONS, resolveStitchNavSection, reviewContent } from './review'
 export { uncertaintyContent } from './uncertainty'
 export { audienceContent } from './audience'

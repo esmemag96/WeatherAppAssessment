@@ -1,4 +1,4 @@
-import type { AiPrincipleData, AiWorkflowStageData, ToolLink } from './types'
+import type { AiWorkflowStageData, ToolLink } from './types'
 
 export const aiCollaborationContent = {
   title: 'Using AI During the Project',
@@ -6,13 +6,8 @@ export const aiCollaborationContent = {
     'AI was part of my workflow, but not my decision maker. Every suggestion was reviewed before becoming part of the project.',
   principle:
     'Use AI to accelerate exploration and preparation — architectural decisions, trade-offs, and final ownership stay with the engineer.',
-  philosophy: {
-    title: 'How I used AI',
-    paragraphs: [
-      'I created my own GPT to help throughout the project: challenge assumptions, explore approaches, compare architectural ideas, generate questions I had not considered, break work into steps, and prepare prompts for other tools.',
-      'I see AI as a way to accelerate engineering work, not replace engineering judgment.',
-    ],
-  },
+  philosophy:
+    'I created my own GPT to help throughout the project: challenge assumptions, explore approaches, compare architectural ideas, generate questions I had not considered, break work into steps, and prepare prompts for other tools.',
   tools: [
     {
       name: 'ChatGPT',
@@ -50,14 +45,6 @@ export const aiCollaborationContent = {
       role: 'Weather, geocoding, and air-quality APIs',
     },
   ] satisfies ToolLink[],
-  uses: [
-    'Challenge assumptions',
-    'Explore different approaches',
-    'Compare architectural ideas',
-    'Generate questions I had not considered',
-    'Break the project into manageable steps',
-    'Prepare prompts for other AI tools',
-  ],
   workflow: [
     {
       id: 'requirement',
@@ -144,24 +131,4 @@ export const aiCollaborationContent = {
       ],
     },
   ] satisfies AiWorkflowStageData[],
-  principles: {
-    title: 'Principles I followed',
-    items: [
-      {
-        id: 'review',
-        icon: 'rule',
-        text: 'Every suggestion was reviewed before it became part of the project.',
-      },
-      {
-        id: 'ownership',
-        icon: 'verified_user',
-        text: 'AI accelerated work — architectural decisions, trade-offs, and final ownership stayed with me.',
-      },
-      {
-        id: 'judgment',
-        icon: 'psychology',
-        text: 'AI helps explore ideas faster; it does not replace engineering judgment.',
-      },
-    ] satisfies AiPrincipleData[],
-  },
 }

@@ -16,21 +16,3 @@ export function useTheme() {
 
   return { theme, isDark, setTheme }
 }
-
-/**
- * Back-compat alias for callers that think in boolean dark/light terms.
- * Theme persistence lives in `useSettingsStore` / `weather-app:settings`.
- */
-export function useDarkMode() {
-  const { isDark, setTheme } = useTheme()
-
-  function setDark(dark: boolean): void {
-    setTheme(dark ? 'dark' : 'light')
-  }
-
-  function toggle(): void {
-    setTheme(isDark.value ? 'light' : 'dark')
-  }
-
-  return { isDark, setDark, toggle }
-}

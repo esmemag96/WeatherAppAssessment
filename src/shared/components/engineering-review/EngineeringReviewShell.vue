@@ -301,7 +301,7 @@ function toggleMobileNav() {
 
           <div class="glass-card rounded-2xl p-6 sm:p-8">
             <p class="max-w-3xl text-sm leading-relaxed ax-muted">
-              {{ aiCollaborationContent.philosophy.paragraphs[0] }}
+              {{ aiCollaborationContent.philosophy }}
             </p>
 
             <div class="mt-8">
