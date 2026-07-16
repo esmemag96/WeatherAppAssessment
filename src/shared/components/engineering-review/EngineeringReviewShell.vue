@@ -42,6 +42,7 @@ const { isDark, toggle } = useArtifactsTheme()
 const activeTimelineStep = ref(uncertaintyContent.steps[0]!.id)
 const activeArchLayer = ref(architectureContent.layers[0]!.id)
 const activeAiStage = ref(aiCollaborationContent.workflow[0]!.id)
+const mobileNavOpen = ref(false)
 
 const progress = computed(() => {
   const index = STITCH_NAV_SECTIONS.findIndex((s) => s.id === activeNavSection.value)
@@ -59,14 +60,30 @@ watch(
   { immediate: true },
 )
 
+watch(mobileNavOpen, (open) => {
+  document.documentElement.classList.toggle('er-scroll-locked', open)
+})
+
 onMounted(() => {
   document.documentElement.classList.add('engineering-review-page')
   requestAnimationFrame(() => observe())
 })
 
 onBeforeUnmount(() => {
-  document.documentElement.classList.remove('engineering-review-page', 'artifacts-dark')
+  document.documentElement.classList.remove(
+    'engineering-review-page',
+    'artifacts-dark',
+    'er-scroll-locked',
+  )
 })
+
+function closeMobileNav() {
+  mobileNavOpen.value = false
+}
+
+function toggleMobileNav() {
+  mobileNavOpen.value = !mobileNavOpen.value
+}
 </script>
 
 <template>
@@ -86,7 +103,35 @@ onBeforeUnmount(() => {
         :coherent-logo-dark-mode="reviewContent.coherentAttribution.logos.darkMode"
         :coherent-logo-light-mode="reviewContent.coherentAttribution.logos.lightMode"
         :is-dark="isDark"
+        @close="closeMobileNav"
       />
+    </div>
+
+    <div v-if="mobileNavOpen" class="md:hidden">
+      <button
+        type="button"
+        class="er-mobile-nav-backdrop ax-focus"
+        aria-label="Close navigation menu"
+        @click="closeMobileNav"
+      />
+      <div class="er-mobile-nav-panel">
+        <EngineeringSidebar
+          :portal-title="reviewContent.portalTitle"
+          :portal-subtitle="reviewContent.portalSubtitle"
+          :author="reviewContent.author"
+          :author-role="reviewContent.authorRole"
+          :sections="STITCH_NAV_SECTIONS"
+          :active-section="activeNavSection"
+          :progress="progress"
+          :app-link="reviewContent.hero.links.app"
+          :github-link="reviewContent.hero.links.github"
+          :coherent-text="reviewContent.coherentAttribution.text"
+          :coherent-logo-dark-mode="reviewContent.coherentAttribution.logos.darkMode"
+          :coherent-logo-light-mode="reviewContent.coherentAttribution.logos.lightMode"
+          :is-dark="isDark"
+          @close="closeMobileNav"
+        />
+      </div>
     </div>
 
     <div class="er-main">
@@ -95,6 +140,7 @@ onBeforeUnmount(() => {
         :author-initial="reviewContent.author.charAt(0)"
         :is-dark="isDark"
         @toggle-theme="toggle"
+        @toggle-mobile-nav="toggleMobileNav"
       />
 
       <main class="er-content">
@@ -102,6 +148,8 @@ onBeforeUnmount(() => {
           :title="reviewContent.hero.title"
           :badge="reviewContent.hero.badge"
           :description="reviewContent.hero.description"
+          :app-link="reviewContent.hero.links.app"
+          :github-link="reviewContent.hero.links.github"
         />
 
         <section id="uncertainty" class="er-section space-y-8">

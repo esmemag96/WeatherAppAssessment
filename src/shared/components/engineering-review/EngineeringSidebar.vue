@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { SectionNavItem } from '@/content/artifacts/types'
-import { RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 import { Icon } from '@/shared/ui'
 import CoherentAttribution from './CoherentAttribution.vue'
 import SectionNavigation from './SectionNavigation.vue'
 
-defineProps<{
+const props = defineProps<{
   portalTitle: string
   portalSubtitle: string
   author: string
@@ -25,6 +25,13 @@ defineProps<{
 const emit = defineEmits<{
   close: []
 }>()
+
+const router = useRouter()
+
+function launchApplication() {
+  emit('close')
+  void router.push(props.appLink)
+}
 </script>
 
 <template>
@@ -38,6 +45,7 @@ const emit = defineEmits<{
     </div>
 
     <SectionNavigation
+      class="min-h-0 flex-1 overflow-y-auto"
       :sections="sections"
       :active-section="activeSection"
       :progress="progress"
@@ -45,7 +53,7 @@ const emit = defineEmits<{
       @navigate="emit('close')"
     />
 
-    <div class="mt-auto">
+    <div class="mt-auto shrink-0">
       <CoherentAttribution
         compact
         :text="coherentText"
@@ -54,35 +62,35 @@ const emit = defineEmits<{
         :is-dark="isDark"
       />
 
-      <div class="border-t pt-6 px-4" style="border-color: var(--er-sidebar-border)">
-      <div class="mb-6 flex items-center gap-3">
-        <div class="er-author-avatar flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold">
-          {{ author.charAt(0) }}
+      <div class="relative z-10 border-t pt-6 px-4" style="border-color: var(--er-sidebar-border)">
+        <div class="mb-6 flex items-center gap-3">
+          <div class="er-author-avatar flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold">
+            {{ author.charAt(0) }}
+          </div>
+          <div>
+            <p class="text-sm font-bold ax-heading">{{ authorRole }}</p>
+            <p class="text-xs ax-muted">{{ author }}</p>
+          </div>
         </div>
-        <div>
-          <p class="text-sm font-bold ax-heading">{{ authorRole }}</p>
-          <p class="text-xs ax-muted">{{ author }}</p>
-        </div>
+        <button
+          type="button"
+          class="er-sidebar-footer-link ax-focus"
+          @click="launchApplication"
+        >
+          <Icon name="rocket_launch" size="sm" aria-hidden="true" />
+          Launch Application
+        </button>
+        <a
+          :href="githubLink"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="er-sidebar-footer-link ax-focus mt-2"
+          @click="emit('close')"
+        >
+          <Icon name="code" size="sm" aria-hidden="true" />
+          GitHub Repository
+        </a>
       </div>
-      <RouterLink
-        :to="appLink"
-        class="ax-focus flex items-center gap-2 text-xs ax-muted transition-colors hover:er-text-primary"
-        @click="emit('close')"
-      >
-        <Icon name="menu_book" size="sm" aria-hidden="true" />
-        Launch Application
-      </RouterLink>
-      <a
-        :href="githubLink"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="ax-focus mt-2 flex items-center gap-2 text-xs ax-muted transition-colors hover:er-text-primary"
-        @click="emit('close')"
-      >
-        <Icon name="code" size="sm" aria-hidden="true" />
-        GitHub Repository
-      </a>
-    </div>
     </div>
   </aside>
 </template>

@@ -1,4 +1,5 @@
 import type { HeroStat, SectionNavItem } from './types'
+import { ROUTE_PATHS } from '@/shared/constants'
 
 /** Primary sidebar navigation — matches the Stitch Engineering Portal layout. */
 export const STITCH_NAV_SECTIONS: SectionNavItem[] = [
@@ -35,7 +36,7 @@ export function resolveStitchNavSection(sectionId: string): string {
 export const reviewContent = {
   pageTitle: 'Engineering Review',
   portalTitle: 'Esmeralda Weather App',
-  portalSubtitle: 'Engineering Portal',
+  portalSubtitle: 'Artifacts Portal',
   breadcrumb: 'Engineering Review',
   author: 'Esmeralda Magdaleno',
   authorRole: 'Frontend Engineer',
@@ -53,7 +54,7 @@ export const reviewContent = {
       { label: 'Delivery', value: 'Production-ready Vue application' },
     ] satisfies HeroStat[],
     links: {
-      app: '/app',
+      app: ROUTE_PATHS.home,
       github: 'https://github.com/esmemag96/WeatherAppAssessment',
     },
   },

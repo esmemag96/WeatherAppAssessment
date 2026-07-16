@@ -83,21 +83,77 @@
   }
 }
 
+.artifacts-root .er-mobile-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  border: none;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.artifacts-root .er-mobile-nav-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  height: 100%;
+  height: 100dvh;
+  box-shadow: 8px 0 32px rgba(0, 0, 0, 0.35);
+}
+
+.artifacts-root .er-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.artifacts-root .er-hero-cta {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.artifacts-root .er-hero-cta:hover {
+  transform: translateY(-1px);
+}
+
 .artifacts-root .er-hero-card {
   position: relative;
   display: flex;
-  min-height: 360px;
+  min-height: 0;
   flex-direction: column;
   justify-content: flex-end;
   overflow: hidden;
-  border-radius: 1.5rem;
-  padding: 2rem;
+  border-radius: 1.25rem;
+  padding: 1.25rem 1.25rem 1.5rem;
 }
 
 @media (min-width: 640px) {
   .artifacts-root .er-hero-card {
-    min-height: 400px;
+    min-height: 360px;
+    border-radius: 1.5rem;
     padding: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .artifacts-root .er-hero-card {
+    min-height: 400px;
   }
 }
 

@@ -7,12 +7,21 @@ defineProps<{
 
 const emit = defineEmits<{
   toggleTheme: []
+  toggleMobileNav: []
 }>()
 </script>
 
 <template>
   <header class="er-topbar">
     <div class="flex min-w-0 items-center gap-3">
+      <button
+        type="button"
+        class="er-topbar-icon ax-focus md:hidden"
+        aria-label="Open navigation menu"
+        @click="emit('toggleMobileNav')"
+      >
+        <span class="material-symbols-outlined text-xl" aria-hidden="true">menu</span>
+      </button>
       <span class="hidden text-sm font-bold ax-faint md:inline">/</span>
       <span class="truncate font-title-lg text-title-lg er-text-primary">{{ breadcrumb }}</span>
     </div>
