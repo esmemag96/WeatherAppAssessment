@@ -5,9 +5,9 @@ export const aiCollaborationContent = {
   subtitle:
     'AI was part of my workflow, but not my decision maker. Every suggestion was reviewed before becoming part of the project.',
   principle:
-    'Use AI to accelerate exploration and preparation — architectural decisions, trade-offs, and final ownership stay with the engineer.',
+    'Used AI to accelerate exploration and preparation — architectural decisions, trade-offs, and final ownership remained my responsibility.',
   philosophy:
-    'I created my own GPT to help throughout the project: challenge assumptions, explore approaches, compare architectural ideas, generate questions I had not considered, break work into steps, and prepare prompts for other tools.',
+    'I used a custom GPT, to keep a consistent context and approach throughout the project. I used it to challenge assumptions, explore alternatives, compare architectural ideas, uncover questions I hadn’t considered, break the work into manageable steps, and prepare focused prompts for other tools.',
   tools: [
     {
       name: 'ChatGPT',
@@ -32,7 +32,7 @@ export const aiCollaborationContent = {
     {
       name: 'Vercel',
       url: 'https://vercel.com',
-      role: 'Hosting, previews, and production deploy',
+      role: 'Hosting and preview deployments',
     },
     {
       name: 'GitHub',
@@ -91,7 +91,7 @@ export const aiCollaborationContent = {
       ],
       engineerResponsibility: [
         'Selected the visual direction',
-        'Decided on condition-based local hero imagery',
+        'Decided on final design and UX',
       ],
     },
     {

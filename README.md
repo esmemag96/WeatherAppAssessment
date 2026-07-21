@@ -109,13 +109,13 @@ CI runs typecheck, unit tests, and Playwright smoke on every push/PR (see `.gith
 
 ## Architecture
 
-Frontend SPA organized into four layers so the UI never depends directly on a weather provider:
+Frontend SPA organized into four layers. Screens talk to stores; only infrastructure talks to Open-Meteo.
 
 | Layer | Responsibility |
 | ----- | -------------- |
 | **Presentation** | Pages, components, layout |
 | **Application** | Stores, composables, user actions |
-| **Domain** | Types and mapping into clean entities |
+| **Domain** | Types for locations, forecasts, settings, alerts |
 | **Infrastructure** | Open-Meteo adapters, LocalStorage, alerts |
 
 ```
@@ -131,8 +131,8 @@ src/
 
 **Rules**
 
-- UI never calls external APIs directly — only through application state and repositories.
-- Features depend on infrastructure through interfaces, so Open-Meteo (or a future backend) can be swapped without rewriting the app.
+- Pages never call `fetch` — they go through stores and composables.
+- Stores use repository interfaces; Open-Meteo details stay in adapters.
 - `entities/*` are pure data shapes.
 - Pages stay thin; they compose features and shared UI.
 
@@ -170,8 +170,10 @@ Narrative content lives in `src/content/artifacts/`. UI lives in `src/shared/com
 
 ## Deploy to Vercel
 
-**Production:** [https://weather-app-assessment-sepia.vercel.app](https://weather-app-assessment-sepia.vercel.app)  
+**Live demo (Vercel):** [https://weather-app-assessment-sepia.vercel.app](https://weather-app-assessment-sepia.vercel.app)  
 App: [/app](https://weather-app-assessment-sepia.vercel.app/app) · Engineering Review: [/artifacts](https://weather-app-assessment-sepia.vercel.app/artifacts)
+
+There is no separate custom-domain production environment for this assessment — the Vercel URL above is what reviewers use. A promoted “production” deploy would be hypothetical if the app became a real product.
 
 Static Vue SPA — no server, no environment variables. Settings are in `vercel.json`.
 
@@ -186,8 +188,8 @@ Static Vue SPA — no server, no environment variables. Settings are in `vercel.
 
 ```bash
 npm i -g vercel
-vercel          # first deploy
-vercel --prod   # production
+vercel          # deploy / preview
+vercel --prod   # optional: promote to Vercel’s production slot (not used as a separate product URL here)
 ```
 
 SPA routes are rewritten to `index.html` via `vercel.json` so `/app`, `/artifacts`, and nested paths work on refresh.
