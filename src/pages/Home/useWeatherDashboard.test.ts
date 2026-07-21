@@ -98,6 +98,7 @@ describe('useWeatherDashboard', () => {
 
   afterEach(() => {
     vi.unstubAllGlobals()
+    vi.restoreAllMocks()
   })
 
   it('reports "no-location" when nothing is selected and there is no favorite/recent fallback', async () => {
@@ -472,16 +473,29 @@ describe('useWeatherDashboard', () => {
   })
 
   describe('the swipe-between-locations carousel', () => {
+    /**
+     * Carousel tests only need `selectedLocation` + favorites. Avoid
+     * `await loadForecast(...)` — the default adapter captures `fetch` at
+     * module load, so `vi.stubGlobal('fetch')` does not intercept it and
+     * the real network call can hang past the test timeout.
+     */
+    function seedSelectedLocation(location: Location): ReturnType<typeof useForecastStore> {
+      const forecastStore = useForecastStore()
+      forecastStore.selectedLocation = location
+      vi.spyOn(forecastStore, 'loadForecast').mockImplementation(async (next) => {
+        forecastStore.selectedLocation = next
+      })
+      return forecastStore
+    }
+
     it('lists favorites as carousel pages, with the active one tracked by activeCarouselIndex', async () => {
-      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
       const favoritesStore = useFavoritesStore()
       const paris = buildLocation({ id: 'paris', name: 'Paris' })
       const tokyo = buildLocation({ id: 'tokyo', name: 'Tokyo' })
       favoritesStore.addFavorite(paris)
       favoritesStore.addFavorite(tokyo)
 
-      const forecastStore = useForecastStore()
-      await forecastStore.loadForecast(tokyo)
+      seedSelectedLocation(tokyo)
 
       const { result } = mountDashboard({ router: createFakeRouter() })
       await flushPromises()
@@ -491,12 +505,10 @@ describe('useWeatherDashboard', () => {
     })
 
     it('prepends the current non-favorite location so swiping never strands the user on a page that disappears', async () => {
-      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
       const favoritesStore = useFavoritesStore()
       favoritesStore.addFavorite(buildLocation({ id: 'paris', name: 'Paris' }))
 
-      const forecastStore = useForecastStore()
-      await forecastStore.loadForecast(buildLocation({ id: 'searched', name: 'Searched City' }))
+      seedSelectedLocation(buildLocation({ id: 'searched', name: 'Searched City' }))
 
       const { result } = mountDashboard({ router: createFakeRouter() })
       await flushPromises()
@@ -506,15 +518,13 @@ describe('useWeatherDashboard', () => {
     })
 
     it('goToNextLocation/goToPreviousLocation load the neighboring page and set the swipe direction', async () => {
-      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
       const favoritesStore = useFavoritesStore()
       const paris = buildLocation({ id: 'paris', name: 'Paris' })
       const tokyo = buildLocation({ id: 'tokyo', name: 'Tokyo' })
       favoritesStore.addFavorite(paris)
       favoritesStore.addFavorite(tokyo)
 
-      const forecastStore = useForecastStore()
-      await forecastStore.loadForecast(paris)
+      const forecastStore = seedSelectedLocation(paris)
 
       const { result } = mountDashboard({ router: createFakeRouter() })
       await flushPromises()
@@ -531,13 +541,11 @@ describe('useWeatherDashboard', () => {
     })
 
     it('clamps at the edges instead of wrapping around', async () => {
-      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
       const favoritesStore = useFavoritesStore()
       const paris = buildLocation({ id: 'paris', name: 'Paris' })
       favoritesStore.addFavorite(paris)
 
-      const forecastStore = useForecastStore()
-      await forecastStore.loadForecast(paris)
+      const forecastStore = seedSelectedLocation(paris)
 
       const { result } = mountDashboard({ router: createFakeRouter() })
       await flushPromises()
@@ -552,15 +560,13 @@ describe('useWeatherDashboard', () => {
     })
 
     it('goToCarouselIndex jumps directly to the requested page', async () => {
-      vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network disabled in tests')))
       const favoritesStore = useFavoritesStore()
       const paris = buildLocation({ id: 'paris', name: 'Paris' })
       const tokyo = buildLocation({ id: 'tokyo', name: 'Tokyo' })
       favoritesStore.addFavorite(paris)
       favoritesStore.addFavorite(tokyo)
 
-      const forecastStore = useForecastStore()
-      await forecastStore.loadForecast(paris)
+      const forecastStore = seedSelectedLocation(paris)
 
       const { result } = mountDashboard({ router: createFakeRouter() })
       await flushPromises()
