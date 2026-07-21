@@ -42,12 +42,6 @@ describe('artifact routes', () => {
     }
   })
 
-  it('redirects legacy /journey to artifacts', async () => {
-    await router.push('/journey')
-    await flushPromises()
-    expect(router.currentRoute.value.path).toBe(ROUTE_PATHS.artifacts)
-  })
-
   it('redirects legacy /search to /app/search', async () => {
     await router.push('/search')
     await flushPromises()

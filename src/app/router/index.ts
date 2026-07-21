@@ -64,7 +64,6 @@ const routes: RouteRecordRaw[] = [
   { path: '/search', redirect: ROUTE_PATHS.search },
   { path: '/favorites', redirect: ROUTE_PATHS.favorites },
   { path: '/settings', redirect: ROUTE_PATHS.settings },
-  { path: '/journey', redirect: ROUTE_PATHS.artifacts },
 ]
 
 export const router = createRouter({

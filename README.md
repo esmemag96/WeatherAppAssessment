@@ -14,6 +14,18 @@ The companion **Engineering Review** at `/artifacts` tells the story of how that
 | Weather app | `/app` | [/app](https://weather-app-assessment-sepia.vercel.app/app) |
 | Engineering Review (Artifacts) | `/artifacts` | [/artifacts](https://weather-app-assessment-sepia.vercel.app/artifacts) |
 
+## Screenshots
+
+| Home | Favorites | Engineering Review |
+| ---- | --------- | ------------------ |
+| <img src="docs/screenshots/home.png" alt="Home forecast for Mexico City with live conditions and weather alert" width="280" /> | <img src="docs/screenshots/favorites.png" alt="Favorites list with reorder handles and current temperatures" width="280" /> | <img src="docs/screenshots/artifacts.png" alt="Engineering Review portal hero with Launch Application and GitHub CTAs" width="280" /> |
+
+### Stitch design mockups
+
+High-fidelity screens were explored in [Stitch](https://stitch.withgoogle.com) before implementation. Token names and the component catalogue in `src/shared/DESIGN_SYSTEM.md` map directly to these mockups — weather dashboard, search, favorites, settings, loading skeleton, and error state.
+
+<img src="docs/screenshots/stitch-design.png" alt="Stitch design workspace showing Nimbus Digital mockups: color palette, typography, and screens for weather, search, favorites, settings, loading, and error states" width="900" />
+
 ## Product scope
 
 **In scope**
@@ -136,7 +148,6 @@ The architecture diagram and layer explorer live in the Engineering Review under
 | `/app/favorites` | Saved locations | [open](https://weather-app-assessment-sepia.vercel.app/app/favorites) |
 | `/app/settings` | Preferences | [open](https://weather-app-assessment-sepia.vercel.app/app/settings) |
 | `/artifacts` | Engineering Review | [open](https://weather-app-assessment-sepia.vercel.app/artifacts) |
-| `/journey` | Redirect → `/artifacts` | — |
 
 Legacy paths `/search`, `/favorites`, and `/settings` redirect into `/app/...`. Artifact deep links like `/artifacts/architecture` redirect to the matching hash on `/artifacts`.
 
@@ -180,6 +191,10 @@ vercel --prod   # production
 ```
 
 SPA routes are rewritten to `index.html` via `vercel.json` so `/app`, `/artifacts`, and nested paths work on refresh.
+
+## Future improvements
+
+- **ESLint + Prettier** — TypeScript strictness (`vue-tsc`) and Vitest cover correctness today; adding lint and format tooling would enforce consistent import order, Vue SFC conventions, and formatting across contributors. A natural next step before opening the repo to a team.
 
 ## Author
 

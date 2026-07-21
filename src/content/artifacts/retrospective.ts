@@ -21,6 +21,7 @@ export const retrospectiveContent = {
     'Earlier structured user testing — I validated late; some UX gaps would have surfaced sooner.',
     'More automated visual regression around condition-based hero states.',
     'Clearer progressive disclosure for favorites discovery on first visit.',
+    'ESLint and Prettier — TypeScript and tests cover correctness, but lint/format tooling would tighten consistency for a team codebase.',
   ],
   wouldDoNext: [
     'Optional sync layer if accounts ever become valuable — without rewriting the domain.',

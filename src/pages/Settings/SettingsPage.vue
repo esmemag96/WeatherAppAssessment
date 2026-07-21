@@ -32,7 +32,10 @@ const {
       <SectionHeader title="Appearance" uppercase />
       <Card rounded="xl" padding="md" class="flex items-center justify-between">
         <span class="flex items-center gap-3 font-body-lg text-body-lg text-on-surface">
-          <Icon name="dark_mode" class="text-on-surface-variant" />
+          <span class="inline-flex items-center gap-0.5 text-on-surface-variant" aria-hidden="true">
+            <Icon name="wb_sunny" size="sm" />
+            <Icon name="dark_mode" size="sm" />
+          </span>
           Theme
         </span>
         <div class="flex gap-1 rounded-lg bg-surface-container-highest p-1">
