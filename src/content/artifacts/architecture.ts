@@ -4,10 +4,8 @@ export const architectureContent = {
   title: 'Technical Direction',
   subtitle:
     'Since the project does not require accounts, a database, or server-side business logic, I decided to build it as a frontend single-page application — and used Eraser to visualize the system before writing code.',
-  goal:
-    'Isolate external services behind clear boundaries so replacing Open-Meteo — or adding a backend later — does not require rewriting the application.',
-  principle:
-    'I do not want the rest of the application to depend directly on whichever weather provider I choose.',
+  goal: 'Put the weather API behind a clear boundary so screens and stores never talk to it directly.',
+  principle: 'Screens talk to stores. Stores talk to repositories. Only infrastructure talks to Open-Meteo.',
   diagramTool: 'Eraser',
   diagramToolUrl: 'https://www.eraser.io',
   eraserQuestions: [
@@ -16,7 +14,6 @@ export const architectureContent = {
     'Which parts are most likely to change in the future?',
     'Where should external services be isolated?',
   ],
-  simplifiedFlow: ['Presentation', 'Application', 'Domain', 'Infrastructure'],
   layers: [
     {
       id: 'presentation',
@@ -46,7 +43,7 @@ export const architectureContent = {
     {
       id: 'infrastructure',
       label: 'Infrastructure',
-      responsibility: 'Communicates with external services and browser storage, and maps provider DTOs into domain types.',
+      responsibility: 'Talks to APIs and browser storage, then translates responses into domain types.',
       keyFiles: [
         'OpenMeteoWeatherAdapter.ts',
         'WeatherMapper.ts',
@@ -63,12 +60,12 @@ export const architectureContent = {
     height: 1362,
     alt: 'Layered architecture diagram showing Presentation, Application, Domain, and Infrastructure tiers for the Weather App SPA.',
     explanation:
-      'The application is organized into four main responsibilities. If I ever replace Open-Meteo — or even introduce a backend later — most of the application should remain unchanged.',
+      'Four layers, each with one job: what the user sees, how actions are coordinated, the core concepts, and how we reach APIs and storage.',
     highlights: [
-      'Pages compose stores and shared UI — network calls stay in infrastructure adapters',
-      'Domain types define what the app expects, independent of any provider',
-      'Infrastructure adapters and mappers translate Open-Meteo responses into domain entities',
-      'Favorites and settings persist in browser storage — no backend required',
+      'Pages compose stores and shared UI — network calls stay in infrastructure',
+      'Domain types describe locations and forecasts in our own words',
+      'Adapters and mappers translate Open-Meteo into those types',
+      'Favorites and settings live in LocalStorage — no backend required',
     ],
   },
   diagramCaption: 'Architecture diagram created with Eraser — presentation, application, domain, and infrastructure.',

@@ -1,6 +1,5 @@
 export { default as AiWorkflowTimeline } from './AiWorkflowTimeline.vue'
 export { default as ArchitectureDiagram } from './ArchitectureDiagram.vue'
-export { default as ArchitectureExplorer } from './ArchitectureExplorer.vue'
 export { default as ArchitectureLayer } from './ArchitectureLayer.vue'
 export { default as CoherentAttribution } from './CoherentAttribution.vue'
 export { default as CompetitorCard } from './CompetitorCard.vue'

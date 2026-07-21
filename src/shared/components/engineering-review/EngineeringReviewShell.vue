@@ -21,8 +21,8 @@ import { useArtifactsTheme, useSectionObserver } from '@/shared/composables'
 import { Icon } from '@/shared/ui'
 import {
   AiWorkflowTimeline,
-  ArchitectureExplorer,
   ArchitectureDiagram,
+  ArchitectureLayer,
   CompetitorCard,
   EngineeringHero,
   EngineeringSidebar,
@@ -363,12 +363,21 @@ function toggleMobileNav() {
               aria-hidden="true"
             />
             <h4 class="font-headline-md text-headline-md mb-2 ax-heading">4-Layer Architecture</h4>
-            <p class="mb-6 max-w-3xl text-sm ax-muted">{{ architectureContent.principle }}</p>
-            <div class="er-layer-grid mb-8">
-              <div
+            <p class="mb-6 max-w-3xl text-sm ax-muted">
+              {{ architectureContent.principle }} Select a layer for files and trade-offs.
+            </p>
+            <div class="er-layer-grid mb-6" role="tablist" aria-label="Architecture layers">
+              <button
                 v-for="(layer, index) in architectureContent.layers"
+                :id="`arch-layer-tab-${layer.id}`"
                 :key="layer.id"
-                class="er-layer-card"
+                type="button"
+                role="tab"
+                class="er-layer-card ax-focus text-left"
+                :class="{ 'er-layer-card-active': activeArchLayer === layer.id }"
+                :aria-selected="activeArchLayer === layer.id"
+                :aria-controls="`arch-layer-panel-${layer.id}`"
+                @click="activeArchLayer = layer.id"
               >
                 <span
                   class="ax-label mb-2 block"
@@ -382,15 +391,17 @@ function toggleMobileNav() {
                 </span>
                 <p class="mb-1 font-bold ax-heading">{{ layer.label }}</p>
                 <p class="text-xs ax-muted">{{ layer.responsibility }}</p>
-              </div>
+              </button>
             </div>
-            <ArchitectureExplorer
-              :flow="architectureContent.simplifiedFlow"
-              :layers="architectureContent.layers"
-              :principle="architectureContent.principle"
-              :active-id="activeArchLayer"
-              @select-layer="activeArchLayer = $event"
-            />
+            <div
+              :id="`arch-layer-panel-${activeArchLayer}`"
+              role="tabpanel"
+              :aria-labelledby="`arch-layer-tab-${activeArchLayer}`"
+            >
+              <ArchitectureLayer
+                :layer="architectureContent.layers.find((layer) => layer.id === activeArchLayer)!"
+              />
+            </div>
           </div>
 
           <div class="glass-card p-5">
@@ -445,6 +456,20 @@ function toggleMobileNav() {
               </li>
             </ul>
           </div>
+
+          <figure class="glass-card mx-auto max-w-xl overflow-hidden p-3 sm:p-4">
+            <img
+              v-for="image in designContent.mockups.images"
+              :key="image.src"
+              :src="image.src"
+              :alt="image.alt"
+              class="mx-auto h-auto w-full max-w-md rounded-lg"
+              loading="lazy"
+            />
+            <figcaption class="mt-3 px-1 text-center text-xs ax-muted">
+              {{ designContent.mockups.caption }}
+            </figcaption>
+          </figure>
 
           <div class="ax-panel-emerald p-5">
             <h3 class="ax-emerald-heading">Condition-based hero imagery</h3>
